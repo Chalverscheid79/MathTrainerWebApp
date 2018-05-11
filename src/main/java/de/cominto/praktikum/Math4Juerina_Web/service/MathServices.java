@@ -17,7 +17,6 @@ public interface MathServices {
 	Round findRoundById(long id);
 	
 	Task saveTask(Task task);
-	List<Task> findByDay(long userId, Date date);
 	Collection<Task>findByLastRoundAndDay(long userId, long roundId, Date date);
 	
 	

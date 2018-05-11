@@ -24,14 +24,16 @@ import de.cominto.praktikum.Math4Juerina_Web.database.Task;
 import de.cominto.praktikum.Math4Juerina_Web.database.TaskRepository;
 import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
 
+/**
+ *
+ */
 @Service
 @Transactional
 public class MathServicesImpl implements MathServices {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MathServicesImpl.class);
 
-	@Autowired
-	private PlayerRepository playerRepository;
+	private final PlayerRepository playerRepository;
 	@Autowired
 	private RoundRepository roundRepository;
 	@Autowired
@@ -44,11 +46,21 @@ public class MathServicesImpl implements MathServices {
 
 	@Autowired
 	private EntityManager em;
-	
+
+	public MathServicesImpl(PlayerRepository playerRepository) {
+
+		this.playerRepository = playerRepository;
+	}
+
+    /**
+     *
+     * @param userName String from userConfig
+     * @return Player, can#t be null
+     */
 	@Override
 	public Player loadPlayer(String userName) {
 
-		Player player = null;
+		Player player;
 
 		// eventuelle whitspaceses entfernen und auf Leerstring prüfen
 		if (userName.trim().equals("")) {
@@ -65,6 +77,12 @@ public class MathServicesImpl implements MathServices {
 		return player;
 	}
 
+    /**
+     * Create Round Object
+     * @param exercise must be min 10
+     * @param player needs object
+     * @return object from Round, cannot null
+     */
 	@Override
 	public Round getRound(int exercise, Player player) {
 
@@ -78,6 +96,11 @@ public class MathServicesImpl implements MathServices {
 		return round;
 	}
 
+    /**
+     * Save entity in repository
+     * @param round entity
+     * @return saved entity
+     */
 	@Override
 	public Round saveRound(Round round) {
 
@@ -85,12 +108,22 @@ public class MathServicesImpl implements MathServices {
 		return round;
 	}
 
+	/**
+	 * JPQL Query
+	 * @param id roundId
+	 * @return List, can be null
+	 */
 	@Override
 	public Round findRoundById(long id) {
-		Round round = roundRepository.findById(id).get();
-		return round;
+
+		return roundRepository.findById(id).orElse(null);
 	}
 
+    /**
+     * Save entity in repository
+     * @param task entity
+     * @return saved entity
+     */
 	@Override
 	public Task saveTask(Task task) {
 
@@ -98,14 +131,14 @@ public class MathServicesImpl implements MathServices {
 		return task;
 	}
 
-	@Override
-	public List<Task> findByDay(long userId, Date date) {
 
-		List<Task> list = taskRepository.findByRoundPlayerPlayerIdAndRoundDayOrderByTaskId(userId, date);		
-		
-		return list;
-	}
 
+
+    /**
+     * Search by roundId all wrong solutions from task and counts them
+     * @param id Round rounId
+     * @return amount of the right solutions in percent, can be -1
+     */
 	@Override
 	public double getCorrectPercent(long id) {
 
@@ -143,12 +176,19 @@ public class MathServicesImpl implements MathServices {
 		return correctPercent;
 	}
 
+    /**
+     * Search all task from day
+     * @param userId
+     * @param roundId
+     * @param date
+     * @return
+     */
 	@Override
 	public Collection<Task> findByLastRoundAndDay(long userId, long roundId, Date date) {
 		//TODO
-		List<Task> list = findByDay(userId, date);
-		List<Task> listLastRound = taskRepository.findByRoundRoundIdAndRoundDay(roundId, date);
-//		listLastRound.addAll(list);
+		List<Task> list = taskRepository.findByRoundPlayerPlayerIdAndRoundDayOrderByTaskId(userId, date);
+		List<Task> listLastRound = taskRepository.findByRoundRoundId(roundId);
+
 		
 		Set<Task> tasks = new LinkedHashSet<>();
 		tasks.addAll(listLastRound);
@@ -157,15 +197,18 @@ public class MathServicesImpl implements MathServices {
 		return tasks;
 	}
 
+    /**
+     *
+     * @param id
+     * @return
+     */
 	@Override
 	public int getNumberOfErrors(long id) {
-		// TODO Auto-generated method stub
 
 		this.em.flush();
 		this.em.clear();
 		
 		Optional<Round> round = roundRepository.findById(id);
-//		LOG.info("#################round {} #####################", round);
 		if (!round.isPresent()) {
 
 			return -1;
