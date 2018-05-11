@@ -1,0 +1,56 @@
+<! DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fertig</title>
+<link rel="stylesheet" type="text/css" href="/layout.css">
+</head>
+<body>
+	<h1>
+		Super du hast <span th:text="${exercise} "></span> Aufgaben
+		gerechnet
+	</h1>
+	<div id="divUserEntry">
+		<table >
+			<tr>
+				<td>Du hattest dabei <span th:text="${error}"></span> fehler </td>
+			</tr>
+			<tr>
+				<td><p th:text="'Damit hast du ' + (${avg > 40} ? ${avg} + ' % richtig gerechnet' : ' zuviele Fehler. Bitte weiter üben!')" ></p></td>
+			</tr>
+			<tr>
+				<td><form method="post" action="/success/restart">
+						<button type="submit" value="submit">Nochmal</button>
+					</form></td>
+			</tr>
+		</table>
+		<div id="divScroll">
+		<table class="centered-text digits-table signs-table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Zahl</th>
+					<th> +/-</th>
+					<th> Zahl</th>
+					<th></th>
+					<th> Deine<br> Eingabe</th>
+					<th> Richtig?</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="task: ${listOfTasks}" th:class="(${task.correct}? 'alignColorRight' : 'alignColorWrong') + ' ' + (${actualRoundId == task.round.getRoundId()}? 'last-round' : '')">
+					<td th:text="${task.taskId}"></td>
+					<td th:text="${task.x}"></td>
+					<td th:text="${task.enumOperator.getOperator()}"></td>
+					<td th:text="${task.y}"></td>
+					<td>=</td>
+					<td th:text="${task.suggestedSolution}"></td>
+					<td th:text="${task.correct}? OK : fehler"></td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+	</div>
+</body>
+</html>

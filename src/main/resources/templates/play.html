@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<title>Math4Juerina</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="/layout.css">
+</head>
+<body>
+<h1>Viel Spass <span th:text="${userName}"></span></h1>
+	<div id="divUserEntry">
+		
+		<form method="post" action="/ui/checkTask">
+			<table>
+				<tr>
+					<td></td>
+					<td>
+						<div id="divRef" th:text="${error}"></div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<!--/*  th ist aus der timelifeengine und das Untermalte ist weil die IDE den Befehl nicht kennt  */-->
+						<label for="result" th:text="${task.getX()} + ' ' + ${task.getEnumOperator().getOperator()}+ ' ' + ${task.getY()} + ' ='">Caption</label>
+						<!--/* <br/><label for="result" th:text="|${task.getX()} ${task.getEnumOperator().getOperator()} ${task.getY()} =|">Caption</label>*/-->
+					</td>
+					<td><input id="result" type="number" name="result" autofocus="autofocus"
+						size="3" maxlength="3" min="0" max="100"><br> 
+						</td>
+				</tr>
+				<tr>
+					<td><label  th:text="${reflection} ? 'richtig' : (${reflection} == null ? '' : 'falsch')">Caption</label></td>
+					<td>
+						<button type="submit" value="submit">weiter</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+
+</body>
+</html>

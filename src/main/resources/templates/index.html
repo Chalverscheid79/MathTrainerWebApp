@@ -1,0 +1,32 @@
+<! DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="/layout.css">
+<title>Willkommen</title>
+</head>
+<body>
+	<h1>Willkommen beim Mathe Trainer</h1>
+	<div id="divUserEntry">
+		<form method="post" action="/index/userConfig">
+			<table class="centered-cell">
+				<tr>
+					<td><label for="userName">Bitte gibt hier deinen Namen ein</label></td>
+				</tr>
+				<tr>
+					<td><input id="userName" type="text" name="userName" autofocus maxlength="25"></input> </td>
+				</tr>
+				<tr>
+					<td><label for="exercise">Wieviele Aufgaben sollen es heute sein?</label></td>
+				</tr>
+				<tr>
+					<td><input id="exercise" type="number" name="exercise" min="10"></input> </td>
+				</tr>
+				<tr>
+					<td><button type="submit" value="submit">Start</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>
