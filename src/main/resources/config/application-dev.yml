@@ -1,0 +1,23 @@
+math:
+    userName: unnamed user 
+    num_tasks: 2
+    wrongSolution: 0
+    factoryDecision: 0
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+    org.hibernate.type.descriptor.sql.BasicExtractor: INFO
+
+spring:
+  jpa:
+      hibernate.ddl-auto: update
+#      show-sql: true
+      
+  datasource:
+             url: jdbc:mysql://localhost/Math4Juerina
+             username: root
+#             password: fhfgh
+#             driver-class-name: com.mysql.jdbc.Driver
+    

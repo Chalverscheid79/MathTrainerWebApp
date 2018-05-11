@@ -1,0 +1,13 @@
+math:
+    userName: unnamed user 
+    num_tasks: 10
+    wrongSolution: 0
+    factoryDecision: 0
+
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost/meinedatenbank
+#    username: root
+#    password: fhfgh
+
+
