@@ -1,14 +1,16 @@
 package de.cominto.praktikum.Math4Juerina_Web;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
-
 import de.cominto.praktikum.Math4Juerina_Web.database.Player;
 import de.cominto.praktikum.Math4Juerina_Web.database.Round;
 import de.cominto.praktikum.Math4Juerina_Web.database.Task;
+import org.junit.Test;
 
-class RoundTest {
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
+
+public class RoundTest {
 
 	Player player = new Player( "developer");
 	
