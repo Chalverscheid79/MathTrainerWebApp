@@ -1,0 +1,96 @@
+@charset "ISO-8859-1";
+/* Stylesheet für Math4Juerina */
+/* body styles */
+body {
+	background-color: #E0E0E0;
+	color: black;
+	font-weight: bold;
+	font-family: Arial;
+	font-size: 120%;
+	font-weight: bold;
+}
+
+
+/* Überschriften Styles */
+h1{
+	text-align: center;
+	color: green;
+}
+
+/* div Styles */
+#divUserEntry {
+	color: black;
+	/*background: light green;*/
+	text-align: center;
+	position: relative;
+	width: 300px;
+	height: 300px;
+	margin: 0 auto;
+}
+
+#divScroll{
+	height:500px;
+	width:500px;
+	overflow:auto;
+}
+
+#divRef {
+	color: red;
+	font-size: 80%;
+}
+
+/* Label Styles */
+#lbltask {
+	display: block;
+	width: 100px;
+}
+
+/*	Class Styles */
+
+	/*die Punktnotaion deklariert in css Styleklassen
+	in diesem Beispiel ist klasse so deklariert, dass
+	sie einem Table zugeordnet werden kann und alle
+	darunter liegenden Zellen (<td>) die Eigenschaften erben */
+.centered-cell td {
+	text-align: center;
+}
+
+.alignColorRight td{
+	color: green;
+}
+
+.alignColorWrong td{
+	color: magenta;
+	font-family: cursive;
+	font-weight: bold;
+}
+
+.digits-table tr td:nth-of-type(1),
+.digits-table tr td:nth-of-type(3),
+.digits-table tr td:nth-of-type(5){
+	text-align: right;
+}
+
+.signs-table tr td:nth-of-type(2){
+	text-align: center;
+	width: 50px
+}
+.signs-table tr td:nth-of-type(4){
+	text-align: center;
+	width: 30px;
+}
+
+.signs-table tr td:nth-of-type(6){
+	text-align: center;
+	width: 100px;
+}
+
+.last-round + tr:not(.last-round) td {
+	padding-top: 20px;
+}
+
+
+
+.centered-text td{
+	text-align: center;
+}
