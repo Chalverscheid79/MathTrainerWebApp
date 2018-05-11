@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "math.user-name",
+    "type": "java.lang.String",
+    "description": "A description for 'math.user-name'"
+  },
+  {
+    "name": "math.num_tasks",
+    "type": "java.lang.String",
+    "description": "A description for 'math.num_tasks'"
+  },
+  {
+    "name": "math.wrong-solution",
+    "type": "java.lang.String",
+    "description": "A description for 'math.wrong-solution'"
+  },
+  {
+    "name": "math.factory-decision",
+    "type": "java.lang.String",
+    "description": "A description for 'math.factory-decision'"
+  }
+]}
