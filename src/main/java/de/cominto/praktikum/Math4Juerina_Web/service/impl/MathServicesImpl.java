@@ -123,11 +123,11 @@ public class MathServicesImpl implements MathServices {
 		LOG.info("Player: {}", round.get().getPlayer());
 
 		List<Task> tasks = round.get().getTasks();
-		double correctPercent = 0;
+		double correctPercent;
 		int errors = 0;
 
 		for (Task task : tasks) {
-			if (task.isCorrect()) {
+			if (! task.isCorrect()) {
 				errors++;
 				
 			}
@@ -135,7 +135,7 @@ public class MathServicesImpl implements MathServices {
 
 		correctPercent = 100 - (100 / round.get().getExercise() * errors);
 		
-		LOG.info("******* Prozent {} *********",correctPercent*2);
+
 		LOG.info("******* Prozent {} *********",correctPercent);
 		
 //		getNumberOfErrors(round.get().getRoundId(), new Date());
