@@ -1,8 +1,8 @@
 math:
     userName: unnamed user 
-    num_tasks: 2
-    wrongSolution: 0
-    factoryDecision: 0
+    numTasks: 3
+ #   wrongSolution: 0
+  #  factoryDecision: 0
 
 logging:
   level:

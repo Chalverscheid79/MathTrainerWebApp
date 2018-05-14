@@ -69,14 +69,12 @@ public class Round {
 	// Round fordert aufgaben
 	public Task createTask() {
 		addFactoryDecision();
-		Task task = Factory.buildTask(this.factoryDecision);
-//		task.setPlayer(getPlayer());
-		return task;
+		return  Factory.buildTask(this.factoryDecision);
 	}
 	
 	// prozentsatz der richtigen aufgaben errechen
 	public double getAvg() {
-		double avg = 0;
+		double avg ;
 		avg = 100 - ( 100 / this.exercise * this.wrongSolution);
 		
 		return avg;
@@ -128,7 +126,7 @@ public class Round {
 	public void setRoundId(long round_id) {
 		this.roundId = round_id;
 	}
-	public void addFactoryDecision() {
+	private void addFactoryDecision() {
 		factoryDecision++;
 	}
 	

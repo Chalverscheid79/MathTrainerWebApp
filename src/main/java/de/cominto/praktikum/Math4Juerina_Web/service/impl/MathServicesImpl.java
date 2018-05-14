@@ -9,10 +9,10 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 
+import de.cominto.praktikum.Math4Juerina_Web.MathProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,28 +32,31 @@ import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
 public class MathServicesImpl implements MathServices {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MathServicesImpl.class);
-
-	private final PlayerRepository playerRepository;
+    @Autowired
+	private PlayerRepository playerRepository;
 	@Autowired
 	private RoundRepository roundRepository;
 	@Autowired
 	private TaskRepository taskRepository;
 
-	@Value("${math.userName}")
-	private String defaultName;
-	@Value("${math.num_tasks}")
-	private int defaultExercise;
+//	@Value("${math.userName}")
+//	private String defaultName;
+//	@Value("${math.num_tasks}")
+//	private int defaultExercise;
+
+	@Autowired
+	MathProperties mathProperties;
 
 	@Autowired
 	private EntityManager em;
 
-	public MathServicesImpl(PlayerRepository playerRepository) {
+	public MathServicesImpl() {
 
-		this.playerRepository = playerRepository;
+//		this.playerRepository = playerRepository;
 	}
 
     /**
-     *
+     * load player from database or create new player object
      * @param userName String from userConfig
      * @return Player, can#t be null
      */
@@ -64,7 +67,7 @@ public class MathServicesImpl implements MathServices {
 
 		// eventuelle whitspaceses entfernen und auf Leerstring prüfen
 		if (userName.trim().equals("")) {
-			userName = defaultName;
+			userName = mathProperties.getUserName();
 		}
 
 		// Player wird nur in die Datenbank geschrieben wenn er noch nicht da war
@@ -87,7 +90,7 @@ public class MathServicesImpl implements MathServices {
 	public Round getRound(int exercise, Player player) {
 
 		if (exercise < 10) {
-			exercise = defaultExercise;
+			exercise = mathProperties.getNumTasks();
 		}
 
 		Round round = new Round(exercise, player);
@@ -178,10 +181,10 @@ public class MathServicesImpl implements MathServices {
 
     /**
      * Search all task from day
-     * @param userId
-     * @param roundId
-     * @param date
-     * @return
+     * @param userId from player
+     * @param roundId from round
+     * @param date actual date
+     * @return list, can be null
      */
 	@Override
 	public Collection<Task> findByLastRoundAndDay(long userId, long roundId, Date date) {
@@ -198,9 +201,10 @@ public class MathServicesImpl implements MathServices {
 	}
 
     /**
-     *
-     * @param id
-     * @return
+     * coutns errors from task etentity
+     * @param id from round etentity
+     * @return if optioanal list not present -1 / or if
+     * present number of errors as in
      */
 	@Override
 	public int getNumberOfErrors(long id) {

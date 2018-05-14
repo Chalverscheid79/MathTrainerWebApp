@@ -1,6 +1,7 @@
 package de.cominto.praktikum.Math4Juerina_Web.web;
 
 
+import de.cominto.praktikum.Math4Juerina_Web.MathProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,6 @@ import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
 @RequestMapping("index")
 public class IndexController {
 	private static final Logger LOG = LoggerFactory.getLogger(IndexController.class);
-	
-	//TODO Auskommentieren
-	@Value("${math.userName}")
-	private String defaultName;
-	@Value("${math.num_tasks}")
-	private int defaultExercise;
-	
 	private static final String INDEX = "index";
 	private static final String PLAY = "redirect:/ui/play";
 	
@@ -39,6 +33,7 @@ public class IndexController {
 	//TODO auskommentieren
 	@Autowired
 	private MathSession session;
+
 	
 	/**
 	 * Go to the home page of the mathetrainer
@@ -69,7 +64,7 @@ public class IndexController {
 		
 		session.setRound(round);
 		
-		LOG.info("########### QueryList: {}###############",taskre.allRoundOfPlayerOnTable(player.getUserName()));	
+//		LOG.info("########### QueryList: {}###############",taskre.allRoundOfPlayerOnTable(player.getUserName()));
 		return PLAY;
 	}
 

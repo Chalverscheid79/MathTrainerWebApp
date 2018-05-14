@@ -16,11 +16,7 @@ public class Player {
 	private Long playerId;
 	private String userName;
 	private String password;
-	
-//	constraint für Fk wird zugwiesen
-//	@OneToMany(mappedBy="user")
-//	private List <Task> tasks;
-	
+
 	@OneToMany(mappedBy="player")
 	private List <Round> rounds;
 	
