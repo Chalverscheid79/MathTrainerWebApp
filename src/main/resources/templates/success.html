@@ -6,12 +6,14 @@
 <link rel="stylesheet" type="text/css" href="/layout.css">
 </head>
 <body>
-	<h1>
-		Super du hast <span th:text="${exercise} "></span> Aufgaben
-		gerechnet
-	</h1>
+
 	<div id="divUserEntry">
-		<table >
+        <h1>
+            Super du hast <span th:text="${exercise} "></span> Aufgaben
+            gerechnet
+        </h1>
+        <div>
+        <table class="centredTable" >
 			<tr>
 				<td>Du hattest dabei <span th:text="${error}"></span> fehler </td>
 			</tr>
@@ -24,8 +26,9 @@
 					</form></td>
 			</tr>
 		</table>
+        </div>
 		<div id="divScroll">
-		<table class="centered-text digits-table signs-table">
+		<table class="centered-text digits-table signs-table centredTable">
 			<thead>
 				<tr>
 					<th>ID</th>
