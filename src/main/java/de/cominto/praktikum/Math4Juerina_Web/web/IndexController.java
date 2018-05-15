@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,11 @@ import de.cominto.praktikum.Math4Juerina_Web.database.Player;
 import de.cominto.praktikum.Math4Juerina_Web.database.Round;
 import de.cominto.praktikum.Math4Juerina_Web.database.TaskRepository;
 import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
 
 
 @Controller
@@ -41,8 +47,12 @@ public class IndexController {
 	 * @return final String
 	 */
 	@RequestMapping("welcome")
-	public String welcomeUser() {
-		
+	public String welcomeUser(final Model model) {
+
+		model.addAttribute("page", "login");
+		model.addAttribute("page_fragment", "login-form");
+
+		LOG.info("SQL:{}", taskre.countAllTaskFromDateToDate(1,Date.from(LocalDate.of(2018,05,14).atStartOfDay(ZoneId.systemDefault()).toInstant()),Date.from(LocalDate.of(2018,05,16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
 		return INDEX;
 	}
 	

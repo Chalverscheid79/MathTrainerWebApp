@@ -31,7 +31,7 @@ public class PlayController {
 	private static final String SOLUTION_CORRECT = "reflection";
 	
 	private static final String TASK = "task";
-	private static final String VIEW_PLAY = "play";
+	private static final String VIEW_PLAY = "index";
 	private static final String VIEW_SUCCESS = "redirect:/success/praise";
 	
 	private static final Logger LOG = LoggerFactory.getLogger(PlayController.class);
@@ -65,10 +65,6 @@ public class PlayController {
 		
 		Round round = session.getRound();
 		
-		LOG.info("*** Config_exercise: {} ***", round.getExercise());
-		LOG.info("*** Config_wrongSolution: {} ***", round.getWrongSolution());
-		LOG.info("*** Config_factoryDecision: {} ***", round.getFactoryDecision());
-		LOG.info("*** Config_Username: {} ***", round.getUserName());
 
 		final ModelAndView view = new ModelAndView();
 		
@@ -96,6 +92,8 @@ public class PlayController {
 			view.setViewName(VIEW_PLAY);
 			
 			view.addObject("userName", round.getUserName());
+			view.addObject("page", "play");
+			view.addObject("page_fragment","play-form");
 			
 //			Das session Objekt der Klasse Task wird an die Methode "stringbuilder" übergeben
 			view.addObject(TASK,  task);
@@ -134,7 +132,9 @@ public class PlayController {
 			view.setViewName("redirect:/index/welcome");
 		}else {
 		view.setViewName(VIEW_PLAY);
-		view.addObject(TASK,  (Task)session.getTask());
+		view.addObject("page", "play");
+		view.addObject("page_fragment","play-form");
+		view.addObject(TASK,  session.getTask());
 		view.addObject(ERROR, param);
 		view.addObject(SOLUTION_CORRECT, session.isCorrect());
 		}

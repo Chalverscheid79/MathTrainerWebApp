@@ -1,0 +1,25 @@
+<! DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/layout.css">
+    <title>Willkommen</title>
+</head>
+<body>
+
+    <form class="login-form" method="post"  action="/index/userConfig" th:fragment="login-form">
+        <h2>Login</h2>
+        <div class="form-group">
+            <label for="userName">Bitte gibt hier deinen Namen ein</label>
+            <input id="userName" class="form-control" type="text" name="userName" autofocus maxlength="25"/>
+        </div>
+        <div class="form-group">
+            <label for="exercise">Wieviele Aufgaben sollen es heute sein?</label>
+            <input id="exercise" class="form-control" type="number" name="exercise" min="10" placeholder="Minimum 10" />
+        </div>
+        <button type="submit" class="btn btn-primary">Start</button>
+    </form>
+
+</body>
+</html>

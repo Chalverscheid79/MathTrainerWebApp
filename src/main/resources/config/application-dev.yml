@@ -11,6 +11,8 @@ logging:
     org.hibernate.type.descriptor.sql.BasicExtractor: INFO
 
 spring:
+  thymeleaf:
+    cache: false
   jpa:
       hibernate.ddl-auto: update
 #      show-sql: true

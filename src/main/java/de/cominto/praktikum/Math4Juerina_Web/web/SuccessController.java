@@ -20,7 +20,7 @@ public class SuccessController {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SuccessController.class);
 	
-	private static final String SUCCESS = "success";
+	private static final String VIEW_INDEX = "index";
 	
 	@Autowired
 	private MathSession session;
@@ -33,7 +33,12 @@ public class SuccessController {
 	public ModelAndView getpraise() {
 		ModelAndView view = new ModelAndView();
 		Round round = session.getRound();
-		view.setViewName(SUCCESS);
+		view.setViewName(VIEW_INDEX);
+		view.addObject("userName", round.getUserName());
+		view.addObject("page", "success");
+		view.addObject("pageleft","left");
+		view.addObject("page_fragment","success-form");
+		view.addObject("pageright","right");
 		view.addObject("exercise",round.getStartExercise());
 		
 		mathServices.saveRound(round);
@@ -68,7 +73,7 @@ public class SuccessController {
 		
 		session.setRound(round);
 		
-		return "redirect:/ui/play";
+		return "redirect:/index";
 	}
 	
 

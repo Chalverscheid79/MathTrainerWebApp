@@ -1,5 +1,6 @@
 package de.cominto.praktikum.Math4Juerina_Web.database;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,14 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
 			+ " inner join r.player p"
 			+ " where p.userName = :userName")
 	List<Task> allRoundOfPlayerOnTable (@Param("userName") String userName);
+
+	@Query("select t.correct, count(t.taskId) from Task t" +
+			" join t.round r" +
+			" join r.player p" +
+			" where p.playerId = :playerId" +
+			" and t.practiceDay between :fromDate and :toDate" +
+			" group by t.correct")
+	List <Object[]> countAllTaskFromDateToDate (@Param("playerId") long playerId,@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
 	
 
 }

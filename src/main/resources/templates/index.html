@@ -1,60 +1,48 @@
 <! DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/xlayout.css">
+    <link rel="stylesheet" type="text/css" href="/layout.css">
     <title>Willkommen</title>
 </head>
 <body>
+<!--
 <div class="row">
     <div class="col-lg-3" style="background-color: red">aaa</div>
     <div class="col-lg-6 px-0" style="background-color: green"><div class="ml-3 mr-1" style="background-color: magenta">bbb</div></div>
     <div class="col-lg-3" style="background-color: blue">ccc</div>
 </div>
-
-
-<div class="header">
-    <h1>Willkommen beim Mathe Trainer</h1>
-</div>
-<div class="topnav">
-    <a href="#">Link1</a>
-    <a href="#">Link2</a>
-    <a href="#">Link3</a>
-    <a href="#">Link4</a>
-</div>
-<div class="row">
-    <div class="column side"><h2>1 Überschrift h2</h2>
+-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 backgroundHeaderFooter">
+            <h1>Willkommen beim Mathe Trainer</h1>
+        </div>
     </div>
-    <div class="column middel">
-        <form method="post" action="/index/userConfig">
-            <h2>Login</h2>
-            <table class="centered-cell centredTable">
-                <tr>
-                    <td><label for="userName">Bitte gibt hier deinen Namen ein</label></td>
-                </tr>
-                <tr>
-                    <td><input id="userName" type="text" name="userName" autofocus maxlength="25"></input></td>
-                </tr>
-                <tr>
-                    <td><label for="exercise">Wieviele Aufgaben sollen es heute sein?</label></td>
-                </tr>
-                <tr>
-                    <td><input id="exercise" type="number" name="exercise" min="10"></input></td>
-                </tr>
-                <tr>
-                    <td>
-                        <button type="submit" value="submit">Start</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+    <div class="row">
+        <div class="col-lg-12 px-0">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">Link1</a>
+                    <a class="navbar-brand"href="#">Link2</a>
+                    <a class="navbar-brand"href="#">Link3</a>
+                    <a class="navbar-brand"href="#">Link4</a>
+                </nav>
+        </div>
     </div>
-    <div class="column side"><h2>3 Überschrift h2</h2>
+    <div class="row">
+        <!--/* <div class="col-lg-3" (th:insert="${pageleft}? ~{${pageleft}}: ~{}"><h2>1 Überschrift h2</h2><span th:text="${pageleft}" /></div> */-->
+        <div class="col-lg-3" th:insert="~{${pageleft}} ?: _"><h2>1 Überschrift h2</h2></div>
+        <div class="col-lg-6 px-0">
+            <div class="ml-3 mr-1" th:insert="~{${page} :: ${page_fragment}}"></div>
+        </div>
+        <div class="col-lg-3" th:insert="~{${pageright}} ?: _"><h2>3 Überschrift h2</h2></div>
     </div>
-</div>
-<div class="footer">
-    <p>Footer</p>
+    <div class="row">
+        <div class="footer col-lg-12 backgroundHeaderFooter">
+            <p>Footer</p>
+        </div>
+    </div>
 </div>
 </body>
 </html>

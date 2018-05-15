@@ -1,41 +1,33 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 <title>Math4Juerina</title>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="/layout.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="/layout.css">
 </head>
 <body>
-<h1>Viel Spass <span th:text="${userName}"></span></h1>
-	<div id="divUserEntry">
+
+
 		
-		<form method="post" action="/ui/checkTask">
-			<table class="centredTable">
-				<tr>
-					<td></td>
-					<td>
-						<div id="divRef" th:text="${error}"></div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<!--/*  th ist aus der timelifeengine und das Untermalte ist weil die IDE den Befehl nicht kennt  */-->
-						<label for="result" th:text="${task.getX()} + ' ' + ${task.getEnumOperator().getOperator()}+ ' ' + ${task.getY()} + ' ='">Caption</label>
-						<!--/* <br/><label for="result" th:text="|${task.getX()} ${task.getEnumOperator().getOperator()} ${task.getY()} =|">Caption</label>*/-->
-					</td>
-					<td><input id="result" type="number" name="result" autofocus="autofocus"
-						size="3" maxlength="3" min="0" max="100"><br> 
-						</td>
-				</tr>
-				<tr>
-					<td><label  th:text="${reflection} ? 'richtig' : (${reflection} == null ? '' : 'falsch')">Caption</label></td>
-					<td>
-						<button type="submit" value="submit">weiter</button>
-					</td>
-				</tr>
-			</table>
+		<form class="play-form" method="post" action="/ui/checkTask" th:fragment="play-form">
+
+            <h1>Viel Spass <span th:text="${userName}"></span></h1>
+
+			<div class="form-group play-form">
+
+				<!--/*  th ist aus der timelifeengine und das Untermalte ist weil die IDE den Befehl nicht kennt  */-->
+				<label for="result" th:text="${task.getX()} + ' ' + ${task.getEnumOperator().getOperator()}+ ' ' + ${task.getY()} + ' ='">Caption</label>
+				<!--/* <br/><label for="result" th:text="|${task.getX()} ${task.getEnumOperator().getOperator()} ${task.getY()} =|">Caption</label>*/-->
+				<input id="result" type="number" name="result" autofocus="autofocus"size="3" maxlength="3" min="0" max="100"><br>
+				<label  th:text="${reflection} ? 'richtig' : (${reflection} == null ? '' : 'falsch')">Caption</label>
+			</div>
+						<button type="submit" class="btn btn-primary">weiter</button>
+            <div class="form-group" id="divRef" th:text="${error}"></div>
+
+
 		</form>
-	</div>
+
 
 
 </body>
