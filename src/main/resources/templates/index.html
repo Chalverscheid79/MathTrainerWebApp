@@ -32,15 +32,15 @@
     </div>
     <div class="row">
         <!--/* <div class="col-lg-3" (th:insert="${pageleft}? ~{${pageleft}}: ~{}"><h2>1 Überschrift h2</h2><span th:text="${pageleft}" /></div> */-->
-        <div class="col-lg-3" th:insert="~{${pageleft}} ?: _"><h2>1 Überschrift h2</h2></div>
+        <div class="col-lg-3" th:insert="~{${pageleft}} ?: _"></div>
         <div class="col-lg-6 px-0">
             <div class="ml-3 mr-1" th:insert="~{${page} :: ${page_fragment}}"></div>
         </div>
-        <div class="col-lg-3" th:insert="~{${pageright}} ?: _"><h2>3 Überschrift h2</h2></div>
+        <div class="col-lg-3" th:insert="~{${pageright}} ?: _"></div>
     </div>
     <div class="row">
-        <div class="footer col-lg-12 backgroundHeaderFooter">
-            <p>Footer</p>
+        <div class="index-footer col-lg-12 backgroundHeaderFooter">
+            <div >Footer</div>
         </div>
     </div>
 </div>
