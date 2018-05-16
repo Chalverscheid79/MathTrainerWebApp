@@ -45,7 +45,7 @@ public class IndexController {
 		model.addAttribute("page", "login");
 		model.addAttribute("page_fragment", "login-form");
 
-		LOG.info("######## PERCENT: {}",mathServices.getPercentCorrectFromDateToLocalDate(2,10));
+//		LOG.info("######## PERCENT: {}",mathServices.getPercentCorrectFromDateToLocalDate(2,10));
 
 		return INDEX;
 	}
