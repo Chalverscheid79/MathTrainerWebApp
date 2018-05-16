@@ -1,13 +1,29 @@
 package de.cominto.praktikum.Math4Juerina_Web.database;
 
 
-public class Irgendwie {
+import java.util.Date;
+
+public class WrapperCount {
     private boolean correct;
     private long tasks;
+    private Date day;
 
-    public Irgendwie( boolean correct, long task){
+    public WrapperCount(boolean correct, long task){
+        this(correct,task,null);
+    }
+
+    public WrapperCount(boolean correct, long task, Date day){
         this.correct = correct;
         this.tasks = task;
+        this.day = day;
+    }
+
+    public Date getDay() {
+        return day;
+    }
+
+    public void setDay(Date day) {
+        this.day = day;
     }
 
     public boolean isCorrect() {
@@ -28,7 +44,7 @@ public class Irgendwie {
 
     @Override
     public String toString() {
-        return "Irgendwie{" +
+        return "WrapperCount{" +
                 "correct=" + correct +
                 ", tasks=" + tasks +
                 '}';

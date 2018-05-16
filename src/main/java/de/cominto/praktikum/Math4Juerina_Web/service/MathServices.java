@@ -1,5 +1,6 @@
 package de.cominto.praktikum.Math4Juerina_Web.service;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -23,4 +24,8 @@ public interface MathServices {
 	double getCorrectPercent(long rundId);
 	
 	int getNumberOfErrors(long roundId);
+
+	long getPercentCorrectFromDateToLocalDate(long playerId, int priviousDays);
+	List<Long> getCountAllTaskFromDateToDateGroupByDay(long playerId, int priviousDays);
+
 }

@@ -16,6 +16,13 @@
     width: 100%;
 }
 
+.success-colored-div{
+    position: absolute; bottom: 0;
+    left: 0;
+    width: 28px;
+    background-color: orange;
+}
+
 /* Style the topnav links */
 .topnav a {
     float: left;
@@ -102,7 +109,6 @@ h1{
 	text-align: center;
 	position: relative;
 	width: 700px;
-	height: 200px;
     margin:  auto auto;
 }
 

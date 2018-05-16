@@ -3,6 +3,7 @@ package de.cominto.praktikum.Math4Juerina_Web.web;
 import java.util.Collection;
 import java.util.Date;
 
+import de.cominto.praktikum.Math4Juerina_Web.database.WrapperCount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,13 @@ public class SuccessController {
 	@Autowired
 	private MathServices mathServices;
 
+
 	
 	@RequestMapping("/praise") // loben
 	public ModelAndView getpraise() {
 		ModelAndView view = new ModelAndView();
 		Round round = session.getRound();
+//		LOG.info("********* TEST: {}",mathServices.getPercentCorrectFromDateToLocalDate(session.getPlayer().getPlayerId(),30));
 		view.setViewName(VIEW_INDEX);
 		view.addObject("userName", round.getUserName());
 		view.addObject("page", "success");
@@ -40,6 +43,8 @@ public class SuccessController {
 		view.addObject("page_fragment","success-form");
 		view.addObject("pageright","right");
 		view.addObject("exercise",round.getStartExercise());
+		view.addObject("correctPercent",mathServices.getPercentCorrectFromDateToLocalDate(session.getRound().getPlayer().getPlayerId(),30));
+
 		
 		mathServices.saveRound(round);
 		

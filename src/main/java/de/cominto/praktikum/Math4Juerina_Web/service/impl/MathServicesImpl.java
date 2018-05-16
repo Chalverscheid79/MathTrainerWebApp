@@ -1,27 +1,19 @@
 package de.cominto.praktikum.Math4Juerina_Web.service.impl;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 import javax.persistence.EntityManager;
 
 import de.cominto.praktikum.Math4Juerina_Web.MathProperties;
+import de.cominto.praktikum.Math4Juerina_Web.database.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.cominto.praktikum.Math4Juerina_Web.database.Player;
-import de.cominto.praktikum.Math4Juerina_Web.database.PlayerRepository;
-import de.cominto.praktikum.Math4Juerina_Web.database.Round;
-import de.cominto.praktikum.Math4Juerina_Web.database.RoundRepository;
-import de.cominto.praktikum.Math4Juerina_Web.database.Task;
-import de.cominto.praktikum.Math4Juerina_Web.database.TaskRepository;
 import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
 
 /**
@@ -234,4 +226,86 @@ public class MathServicesImpl implements MathServices {
 		return errors;
 	}
 
+	/**
+	 *
+	 * @param playerId
+	 * @param priviousDays
+	 * @return
+	 */
+	@Override
+	public long getPercentCorrectFromDateToLocalDate(long playerId, int priviousDays) {
+
+		LocalDate localDate = LocalDate.now();
+		LocalDate pastLocalDate = localDate.minusDays(priviousDays);
+		Date toDate = Date.from(localDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+		Date fromDate = Date.from(pastLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+		List<WrapperCount> list = taskRepository.countAllTaskFromDateToDate(playerId,fromDate,toDate);
+
+		return  getPercentCorrect(list);
+	}
+
+	@Override
+	public List<Long> getCountAllTaskFromDateToDateGroupByDay(long playerId, int priviousDays) {
+
+		LocalDate localDate = LocalDate.now();
+		LocalDate pastLocalDate = localDate.minusDays(priviousDays);
+		Date toDate = Date.from(localDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+		Date fromDate = Date.from(pastLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+		List<WrapperCount> list = taskRepository.countAllTaskFromDateToDateGroupByDay(playerId, fromDate, toDate);
+		List <Long> percentCorrect = new ArrayList<>();
+		/*
+			SQL Result:
+			2018-05-04	0	2
+			2018-05-04	1	26
+			2018-05-07	0	9
+			2018-05-07	1	27
+			2018-05-08	0	10
+			2018-05-08	1	80
+			2018-05-09	0	146
+			2018-05-09	1	80
+			2018-05-11	0	2
+			2018-05-11	1	12
+			2018-05-14	1	61
+			2018-05-15	0	1
+			2018-05-15	1	34
+			2018-05-16	1	48
+		 */
+		List<WrapperCount> oneDay = new ArrayList<>();
+		Date currentDay = null;
+		for(WrapperCount i:list){
+			if (currentDay == null || !currentDay.equals(i.getDay())){
+				if(currentDay != null){
+					percentCorrect.add(getPercentCorrect(oneDay));
+				}
+				oneDay.clear();
+				currentDay=i.getDay();
+			}
+			oneDay.add(i);
+		}
+		if(!oneDay.isEmpty()) {
+			percentCorrect.add(getPercentCorrect(oneDay));
+		}
+
+		return  percentCorrect;
+	}
+
+	private long getPercentCorrect(List<WrapperCount> wrapperCount){
+		long correctAnswers = 0;
+		long wrongAnswers = 0;
+		for(WrapperCount i : wrapperCount){
+			if(i.isCorrect()){
+				correctAnswers = i.getTasks();
+			}
+			if (! i.isCorrect()){
+				wrongAnswers = i.getTasks();
+			}
+
+		}
+		long totalTasks = correctAnswers + wrongAnswers;
+		long percentCorrect = correctAnswers * 100 / totalTasks;
+		LOG.info("##### CORRECT: {} +++++ WRONG: {}",correctAnswers,wrongAnswers);
+		return  percentCorrect;
+	}
 }
