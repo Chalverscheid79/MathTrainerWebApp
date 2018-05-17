@@ -20,7 +20,17 @@
     position: absolute; bottom: 0;
     left: 0;
     width: 28px;
-    background-color: orange;
+
+}
+
+.left-diagram-div{
+    position: absolute;
+    bottom: 0;
+    position: absolute;
+    width: 30px;
+    height: 202px;
+    border: 1px solid black;
+
 }
 
 /* Style the topnav links */

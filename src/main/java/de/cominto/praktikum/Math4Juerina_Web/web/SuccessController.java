@@ -33,9 +33,11 @@ public class SuccessController {
 	
 	@RequestMapping("/praise") // loben
 	public ModelAndView getpraise() {
+
 		ModelAndView view = new ModelAndView();
 		Round round = session.getRound();
-//		LOG.info("********* TEST: {}",mathServices.getPercentCorrectFromDateToLocalDate(session.getPlayer().getPlayerId(),30));
+		mathServices.saveRound(round);
+		//		LOG.info("********* TEST: {}",mathServices.getPercentCorrectFromDateToLocalDate(session.getPlayer().getPlayerId(),30));
 		view.setViewName(VIEW_INDEX);
 		view.addObject("userName", round.getUserName());
 		view.addObject("page", "success");
@@ -44,14 +46,10 @@ public class SuccessController {
 		view.addObject("pageright","right");
 		view.addObject("exercise",round.getStartExercise());
 		view.addObject("correctPercent",mathServices.getPercentCorrectFromDateToLocalDate(session.getRound().getPlayer().getPlayerId(),30));
-
-		
-		mathServices.saveRound(round);
-		
 		view.addObject("avg", mathServices.getCorrectPercent(round.getRoundId()));
-		
 		view.addObject("error",mathServices.getNumberOfErrors(round.getRoundId()));
 		view.addObject("actualRoundId", round.getRoundId());
+		view.addObject("fiveDayRefletkionLeftList",mathServices.getCountAllTaskFromDateToDateGroupByDay(session.getRound().getPlayer().getPlayerId(),5));
 
 		/**
 		 * Die Entity Objekte werden in eine "List" geladen gemaess der Abfrage aus der Repository

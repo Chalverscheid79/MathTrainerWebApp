@@ -33,13 +33,15 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
 			" group by t.correct")
 	List <WrapperCount> countAllTaskFromDateToDate (@Param("playerId") long playerId, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
 	
-	@Query("select new de.cominto.praktikum.Math4Juerina_Web.database.WrapperCount(t.correct, count(t.taskId),r.day) from Task t" +
+	@Query("select new de.cominto.praktikum.Math4Juerina_Web.database.WrapperCount(t.correct, count(t.taskId),min(t.practiceDay)) from Task t" +
 				" join t.round r" +
 				" join r.player p" +
 				" where p.playerId = :playerId" +
-				" and t.practiceDay >= :fromDate and t.practiceDay   < :toDate " +
-				" group by r.day, t.correct")
+				" and t.practiceDay >= :fromDate and t.practiceDay   < :toDate" +
+				" group by substring(t.practiceDay,1,10),t.correct")
 		List <WrapperCount> countAllTaskFromDateToDateGroupByDay(@Param("playerId") long playerId, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
+
+
 
 
 }

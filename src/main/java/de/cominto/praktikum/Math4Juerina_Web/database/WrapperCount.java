@@ -1,6 +1,7 @@
 package de.cominto.praktikum.Math4Juerina_Web.database;
 
 
+import java.time.ZoneId;
 import java.util.Date;
 
 public class WrapperCount {
@@ -15,7 +16,9 @@ public class WrapperCount {
     public WrapperCount(boolean correct, long task, Date day){
         this.correct = correct;
         this.tasks = task;
-        this.day = day;
+        if(day != null){
+            this.day = Date.from(day.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        }
     }
 
     public Date getDay() {

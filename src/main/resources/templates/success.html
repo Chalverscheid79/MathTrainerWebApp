@@ -1,5 +1,5 @@
 <! DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html>
 <head>
 <meta charset="utf-8">
 <title>Fertig</title>
@@ -42,6 +42,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                <!-- /* task ist ein freiwählbarer Name damit ich innerhalb der schleife darauf zugreifen kann */ -->
                     <tr th:each="task: ${listOfTasks}" th:class="(${task.correct}? 'alignColorRight' : 'alignColorWrong') + ' ' + (${actualRoundId == task.round.getRoundId()}? 'last-round' : '')">
                         <td th:text="${task.taskId}"></td>
                         <td th:text="${task.x}"></td>

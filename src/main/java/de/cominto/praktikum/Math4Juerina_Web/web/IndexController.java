@@ -65,7 +65,6 @@ public class IndexController {
 		LOG.info("**** exercise : {} ****",exercise);
 		
 		Round round = mathServices.getRound(exercise, player);
-		
 		session.setRound(round);
 		LOG.info("********* TEST: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(session.getRound().getPlayer().getPlayerId(),30));
 //		LOG.info("########### QueryList: {}###############",taskre.allRoundOfPlayerOnTable(player.getUserName()));

@@ -22,7 +22,6 @@ import de.cominto.praktikum.Math4Juerina_Web.database.Task;
 @Component
 public class MathSession {
 	
-	private static final String PLAYER = "player";
 	private static final String TASK = "task";
 	private static final String ROUND = "round";
 	private static final String SOLUTION = "solution";
@@ -30,15 +29,7 @@ public class MathSession {
 	@Autowired
 	private HttpSession session;
 	
-	/**
-	 * Get the Player object from session
-	 * @return object. Can return null
-	 */
-	public Player getPlayer() {
-		
-		return (Player)this.session.getAttribute(PLAYER);
-	}
-	
+
 	/**
 	 * Get the Task object from session
 	 * @return object. Can return null.
@@ -59,15 +50,6 @@ public class MathSession {
 	}
 	
 	/**
-	 * set a object of Player in session
-	 * 
-	 * @param player
-	 */
-	public void setPlayer (Player player) {
-		session.setAttribute(PLAYER, player);
-	}
-	
-	/**
 	 * set a object of Round in session
 	 * 
 	 * @param round
@@ -83,17 +65,6 @@ public class MathSession {
 	 */
 	public void setTask (Task task) {
 		session.setAttribute(TASK, task);
-	}
-	
-	/**
-	 * remove the Player object from session
-	 * 
-	 * @return the last player object. Can return null
-	 */
-	public Player removePlayer() {
-		Player player = getPlayer();
-		session.removeAttribute(PLAYER);
-		return player;
 	}
 	
 	/**

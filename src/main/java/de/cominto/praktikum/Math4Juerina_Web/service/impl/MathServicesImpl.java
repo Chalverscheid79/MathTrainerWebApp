@@ -274,20 +274,28 @@ public class MathServicesImpl implements MathServices {
 		 */
 		List<WrapperCount> oneDay = new ArrayList<>();
 		Date currentDay = null;
-		for(WrapperCount i:list){
-			if (currentDay == null || !currentDay.equals(i.getDay())){
+		for(WrapperCount wrapperCount:list){
+			if (currentDay == null || !currentDay.equals(wrapperCount.getDay())){
 				if(currentDay != null){
 					percentCorrect.add(getPercentCorrect(oneDay));
 				}
 				oneDay.clear();
-				currentDay=i.getDay();
+				currentDay=wrapperCount.getDay();
 			}
-			oneDay.add(i);
+			oneDay.add(wrapperCount);
 		}
 		if(!oneDay.isEmpty()) {
 			percentCorrect.add(getPercentCorrect(oneDay));
 		}
 
+//		percentCorrect.add(45L);
+//		percentCorrect.add(95L);
+//		percentCorrect.add(55L);
+//		percentCorrect.add(65L);
+//		percentCorrect.add(0L);
+//		percentCorrect.add(10L);
+
+		LOG.info("*******##### LocalDate: {}", new Date());
 		return  percentCorrect;
 	}
 
