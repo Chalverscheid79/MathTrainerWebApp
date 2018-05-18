@@ -1,15 +1,13 @@
-<html lang="de" lang="de" xmlns:th="http://www.thymeleaf.org">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
     <h1 >Erfolge der letzten 5 Runden heute</h1>
 
     <p>hier trage ich deine Leistungskurve ein! <br></p>
 
     <div style="position: relative; height: 200px;">
-        <!--<div style="position: absolute; bottom: 0; left: 0; width: 30px; height: 50px; background-color: red"></div>-->
-        <!--<div style="position: absolute; bottom: 0; left: 30px; width: 30px; height: 200px; background-color: green"></div>-->
-
-        <div style="position: absolute; bottom: 0; left: 90px; width: 30px; height: 200px; border: 1px solid black">
-            <div class="success-colored-div" th:style="'height:'+(${correctPercent * 2})+'px'";></div>
-            <div  style="position: absolute; top: 50%; transform: translate(0, -50%) rotate(270deg) "><span th:text="${correctPercent} +'%'"></span></div>
+        <div th:each="listElement,iterStat:${fiveRoundRefletkionRightList} " class="left-diagram-div" th:style="'left:' + ${iterStat.index * 35 + 10}+ 'px'">
+            <div class="success-colored-div" th:style="'height:'+(${listElement * 2}+'px') + ';' + 'background-color:'+ ((${listElement} > '90')?  'green': ((${listElement} >= '50')?  'yellow': 'red'))+';'"></div>
+            <div style="position: absolute; top: 50%; transform: translate(0, -50%) rotate(270deg) ">
+                <span th:text="${listElement} +'%'"></span></div>
         </div>
     </div>
 </html>

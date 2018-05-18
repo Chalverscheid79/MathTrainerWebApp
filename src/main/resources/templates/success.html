@@ -9,8 +9,8 @@
     <form th:fragment="success-form">
         <div >
             <h1>
-                Super du hast <span th:text="${exercise} "></span> Aufgaben
-                gerechnet
+                <span th:text="${'Super ' + userName + ' ,du hast ' + exercise} + ' Aufgaben gerechnet'"></span>
+
             </h1>
             <div>
             <table class="centredTable" >

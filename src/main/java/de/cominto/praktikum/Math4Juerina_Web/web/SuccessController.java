@@ -50,6 +50,8 @@ public class SuccessController {
 		view.addObject("error",mathServices.getNumberOfErrors(round.getRoundId()));
 		view.addObject("actualRoundId", round.getRoundId());
 		view.addObject("fiveDayRefletkionLeftList",mathServices.getCountAllTaskFromDateToDateGroupByDay(session.getRound().getPlayer().getPlayerId(),5));
+		view.addObject("fiveRoundRefletkionRightList",mathServices.findAllTasksFromLastFiveRoundsInfrintAcutalRound(session.getRound().getRoundId()));
+		LOG.info("#####Controller: {} *****************",mathServices.findAllTasksFromLastFiveRoundsInfrintAcutalRound(session.getRound().getRoundId()));
 
 		/**
 		 * Die Entity Objekte werden in eine "List" geladen gemaess der Abfrage aus der Repository

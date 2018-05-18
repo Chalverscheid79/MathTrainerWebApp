@@ -15,6 +15,10 @@ import de.cominto.praktikum.Math4Juerina_Web.database.Round;
 import de.cominto.praktikum.Math4Juerina_Web.database.TaskRepository;
 import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 
 @Controller
 @RequestMapping("index")
@@ -66,7 +70,12 @@ public class IndexController {
 		
 		Round round = mathServices.getRound(exercise, player);
 		session.setRound(round);
-		LOG.info("********* TEST: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(session.getRound().getPlayer().getPlayerId(),30));
+
+		LocalDate localDate = LocalDate.now();
+		LocalDate pastLocalDate = localDate.minusDays(0);
+		Date toDate = Date.from(localDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+		Date fromDate = Date.from(pastLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		LOG.info("********* TEST: {}",taskre.findAllTasksFromLastFiveRoundsInfrintAcutalRound(round.getRoundId(),fromDate,toDate));
 //		LOG.info("########### QueryList: {}###############",taskre.allRoundOfPlayerOnTable(player.getUserName()));
 		return PLAY;
 	}

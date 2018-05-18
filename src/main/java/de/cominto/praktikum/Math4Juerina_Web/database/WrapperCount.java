@@ -7,15 +7,24 @@ import java.util.Date;
 public class WrapperCount {
     private boolean correct;
     private long tasks;
+    private Long roundId;
     private Date day;
 
     public WrapperCount(boolean correct, long task){
-        this(correct,task,null);
+        this(correct, task, 0, null);
     }
 
     public WrapperCount(boolean correct, long task, Date day){
+        this(correct, task, 0, day);
+    }
+    public WrapperCount(boolean correct, long task, long roundId){
+            this(correct, task, roundId,null);
+        }
+
+    public WrapperCount(boolean correct, long task, long roundId, Date day){
         this.correct = correct;
         this.tasks = task;
+        this.roundId = roundId;
         if(day != null){
             this.day = Date.from(day.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
         }
@@ -50,6 +59,16 @@ public class WrapperCount {
         return "WrapperCount{" +
                 "correct=" + correct +
                 ", tasks=" + tasks +
+                ", roundId=" + roundId +
+                ", day=" + day +
                 '}';
+    }
+
+    public Long getRoundId() {
+        return roundId;
+    }
+
+    public void setRoundId(Long roundId) {
+        this.roundId = roundId;
     }
 }

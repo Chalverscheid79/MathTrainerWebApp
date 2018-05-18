@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 
 import de.cominto.praktikum.Math4Juerina_Web.MathProperties;
 import de.cominto.praktikum.Math4Juerina_Web.database.*;
+import de.cominto.praktikum.Math4Juerina_Web.database.impl.JpaTaskRepositoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class MathServicesImpl implements MathServices {
 	private RoundRepository roundRepository;
 	@Autowired
 	private TaskRepository taskRepository;
+
 
 //	@Value("${math.userName}")
 //	private String defaultName;
@@ -192,6 +194,42 @@ public class MathServicesImpl implements MathServices {
 		return tasks;
 	}
 
+    @Override
+    public List<Long> findAllTasksFromLastFiveRoundsInfrintAcutalRound(long roundId) {
+        LocalDate localDate = LocalDate.now();
+        LocalDate pastLocalDate = localDate.minusDays(0);
+        Date toDate = Date.from(localDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date fromDate = Date.from(pastLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        List<WrapperCount> list = taskRepository.findAllTasksFromLastFiveRoundsInfrintAcutalRound(roundId, fromDate, toDate);
+        List<Long> percent = new ArrayList<>();
+//        for(WrapperCount wc : list){
+//            if (wc != null) {
+//                percent.add(getPercentCorrect(list));
+//                LOG.info("****************Percent: {} ---------------",getPercentCorrect(list));
+//            }else{
+//                return null;
+//            }
+//        }
+        List<WrapperCount> oneRound = new ArrayList<>();
+        Long currenRound = null;
+        for(WrapperCount wrapperCount:list){
+            if (currenRound == null || !currenRound.equals(wrapperCount.getRoundId())){
+                if(currenRound != null){
+                    percent.add(getPercentCorrect(oneRound));
+                }
+                oneRound.clear();
+                currenRound =wrapperCount.getRoundId();
+            }
+            oneRound.add(wrapperCount);
+        }
+        if(!oneRound.isEmpty()) {
+            percent.add(getPercentCorrect(oneRound));
+        }
+
+        return  percent;
+    }
+
     /**
      * coutns errors from task etentity
      * @param id from round etentity
@@ -288,18 +326,17 @@ public class MathServicesImpl implements MathServices {
 			percentCorrect.add(getPercentCorrect(oneDay));
 		}
 
-//		percentCorrect.add(45L);
-//		percentCorrect.add(95L);
-//		percentCorrect.add(55L);
-//		percentCorrect.add(65L);
-//		percentCorrect.add(0L);
-//		percentCorrect.add(10L);
-
 		LOG.info("*******##### LocalDate: {}", new Date());
 		return  percentCorrect;
 	}
 
+    /**
+     *
+     * @param wrapperCount erwartet max 2 einträge richt / falsch
+     * @return
+     */
 	private long getPercentCorrect(List<WrapperCount> wrapperCount){
+	    LOG.info("---------------getPercentCorrect: {}", wrapperCount);
 		long correctAnswers = 0;
 		long wrongAnswers = 0;
 		for(WrapperCount i : wrapperCount){
@@ -316,4 +353,6 @@ public class MathServicesImpl implements MathServices {
 		LOG.info("##### CORRECT: {} +++++ WRONG: {}",correctAnswers,wrongAnswers);
 		return  percentCorrect;
 	}
+
+
 }

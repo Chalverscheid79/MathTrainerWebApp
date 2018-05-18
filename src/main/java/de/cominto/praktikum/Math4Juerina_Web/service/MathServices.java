@@ -8,6 +8,7 @@ import java.util.List;
 import de.cominto.praktikum.Math4Juerina_Web.database.Player;
 import de.cominto.praktikum.Math4Juerina_Web.database.Round;
 import de.cominto.praktikum.Math4Juerina_Web.database.Task;
+import de.cominto.praktikum.Math4Juerina_Web.database.WrapperCount;
 
 public interface MathServices {
 	
@@ -19,6 +20,8 @@ public interface MathServices {
 	
 	Task saveTask(Task task);
 	Collection<Task>findByLastRoundAndDay(long userId, long roundId, Date date);
+
+	List<Long>findAllTasksFromLastFiveRoundsInfrintAcutalRound(long roundId);
 	
 	
 	double getCorrectPercent(long rundId);
