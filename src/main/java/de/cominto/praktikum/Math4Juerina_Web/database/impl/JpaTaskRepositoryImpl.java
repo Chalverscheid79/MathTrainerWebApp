@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import java.sql.Wrapper;
 import java.util.*;
 
 public class JpaTaskRepositoryImpl implements JpaTaskRepository {
