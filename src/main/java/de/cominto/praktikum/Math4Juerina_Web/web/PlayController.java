@@ -166,9 +166,10 @@ public class PlayController {
 			res = Integer.valueOf(result);
 		}catch(NumberFormatException e){
 			e.printStackTrace();
+
 			model.addAttribute(TASK,  task);
 			model.addAttribute(ERROR, "Bitte Zahlen eingeben");
-			return VIEW_PLAY; 
+			return VIEW_PLAY;
 		}
 		
 		task.checkResult(res);

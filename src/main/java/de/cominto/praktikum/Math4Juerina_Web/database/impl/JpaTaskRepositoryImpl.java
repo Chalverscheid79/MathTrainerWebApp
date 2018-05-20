@@ -51,19 +51,26 @@ public class JpaTaskRepositoryImpl implements JpaTaskRepository {
         }
         Set<Long> roundIds = new HashSet<>();
         List<WrapperCount> lastFiveWrapperCounts = new ArrayList<>();
-//      TODO beide vorgänge in einer Scheife erledigen
+        /**
+         * TODO beide vorgänge in einer Scheife erledigen ergebnis noch auf userId einschränken,
+         * derzeit werden grundsätzlich die letzten 5 runden gesucht
+         */
+
         for (WrapperCount wc : wrapperCount){
             if(roundIds.size() < maxListLenght){
                 roundIds.add(wc.getRoundId());
             }else{
                 break;
             }
-        }
-        for (WrapperCount wc : wrapperCount){
             if(roundIds.contains(wc.getRoundId())){
                 lastFiveWrapperCounts.add(wc);
             }
         }
+//        for (WrapperCount wc : wrapperCount){
+//            if(roundIds.contains(wc.getRoundId())){
+//                lastFiveWrapperCounts.add(wc);
+//            }
+//        }
 
         LOG.info("########### JPA: {}", lastFiveWrapperCounts);
         return lastFiveWrapperCounts;
