@@ -7,23 +7,20 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+/**
+ * definition of spring data queries from the entity Task
+ */
 public interface TaskRepository extends CrudRepository<Task, Long>, JpaTaskRepository {
 	List <Task>findByRoundPlayerPlayerIdAndRoundDayOrderByTaskId (long player_id, Date date );
 	List <Task> findByRoundRoundId(long roundId);
 	
-	//TODO Query im Template einbauen.
-	@Query("select t from Task t"
-			+ " inner join t.round r"
-			+ " inner join r.player p"
-			+ " where p.userName = :userName")
-	List<Task> allRoundOfPlayerOnTable (@Param("userName") String userName);
 
 	/**
-	 *
-	 * @param playerId
-	 * @param fromDate
-	 * @param toDate
-	 * @return
+	 * The select from database starts with an construktor call, the used qurey here Springdata query language
+	 * @param playerId long from Player entity
+	 * @param fromDate date from java.util.Date
+	 * @param toDate date from java.util.Date
+	 * @return list from WrapperCount, can be null
 	 */
 	@Query("select new de.cominto.praktikum.Math4Juerina_Web.database.WrapperCount(t.correct, count(t.taskId)) from Task t" +
 			" join t.round r" +
@@ -32,7 +29,14 @@ public interface TaskRepository extends CrudRepository<Task, Long>, JpaTaskRepos
 			" and t.practiceDay >= :fromDate and t.practiceDay   < :toDate " +
 			" group by t.correct")
 	List <WrapperCount> countAllTaskFromDateToDate (@Param("playerId") long playerId, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
-	
+
+	/**
+	 * The select from database starts with an construktor call, the used qurey here Springdata query language
+	 * @param playerId long from Player entity
+	 * @param fromDate date from java.util.Date
+	 * @param toDate date from java.util.Date
+	 * @return list from WrapperCount, can be null
+	 */
 	@Query("select new de.cominto.praktikum.Math4Juerina_Web.database.WrapperCount(t.correct, count(t.taskId),min(t.practiceDay)) from Task t" +
 				" join t.round r" +
 				" join r.player p" +
@@ -41,7 +45,15 @@ public interface TaskRepository extends CrudRepository<Task, Long>, JpaTaskRepos
 				" group by substring(t.practiceDay,1,10),t.correct")
 		List <WrapperCount> countAllTaskFromDateToDateGroupByDay(@Param("playerId") long playerId, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
 
-@Query("select new de.cominto.praktikum.Math4Juerina_Web.database.WrapperCount(t.correct, count(t.taskId),min(t.practiceDay)) from Task t" +
+	/**
+	 * The select from database starts with an construktor call, the used qurey here Springdata query language
+	 * @param playerId long from Player entity
+	 * @param roundId long from RoundId
+	 * @param fromDate date from java.util.Date
+	 * @param toDate date from java.util.Date
+	 * @return list from WrapperCount, can be null
+	 */
+	@Query("select new de.cominto.praktikum.Math4Juerina_Web.database.WrapperCount(t.correct, count(t.taskId),min(t.practiceDay)) from Task t" +
 				" join t.round r" +
 				" join r.player p" +
 				" where p.playerId = :playerId" +

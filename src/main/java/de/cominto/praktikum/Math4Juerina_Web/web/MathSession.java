@@ -15,7 +15,7 @@ import de.cominto.praktikum.Math4Juerina_Web.database.Task;
 
 /**
  * Wrapper class for HttpSession
- * 
+ * is the link between the presetation-, business and dataset
  * @author halverscheid
  *
  */

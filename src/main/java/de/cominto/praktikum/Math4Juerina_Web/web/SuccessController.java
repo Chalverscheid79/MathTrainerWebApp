@@ -15,6 +15,11 @@ import de.cominto.praktikum.Math4Juerina_Web.database.Round;
 import de.cominto.praktikum.Math4Juerina_Web.database.Task;
 import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
 
+/**
+ * controls the dynamic content of the view
+ *
+ * @author halverscheid
+ */
 @Controller
 @RequestMapping("success")
 public class SuccessController {
@@ -50,16 +55,15 @@ public class SuccessController {
 		view.addObject("error",mathServices.getNumberOfErrors(round.getRoundId()));
 		view.addObject("actualRoundId", round.getRoundId());
 		view.addObject("fiveDayRefletkionLeftList",mathServices.getCountAllTaskFromDateToDateGroupByDay(session.getRound().getPlayer().getPlayerId(),5));
-		view.addObject("fiveRoundRefletkionRightList",mathServices.findAllTasksFromLastFiveRoundsInfrintAcutalRound(session.getRound().getRoundId()));
-		LOG.info("#####Controller: {} *****************",mathServices.findAllTasksFromLastFiveRoundsInfrintAcutalRound(session.getRound().getRoundId()));
+		view.addObject("fiveRoundRefletkionRightList",mathServices.findAllTasksFromLastFiveRoundsInfrintAcutalRound(session.getRound(), session.getRound().getPlayer().getPlayerId()));
+		LOG.info("#####Controller: {} *****************",mathServices.findAllTasksFromLastFiveRoundsInfrintAcutalRound(session.getRound(),session.getRound().getPlayer().getPlayerId()));
 
-		/**
+		/*
 		 * Die Entity Objekte werden in eine "List" geladen gemaess der Abfrage aus der Repository
 		 */
 		Collection<Task> list = mathServices.findByLastRoundAndDay(round.getPlayer().getPlayerId(), round.getRoundId(),new Date());
 		
-		LOG.info("LISTE: {}",list.size());
-		
+
 		view.addObject("listOfTasks", list);
 		
 		return view;
@@ -78,7 +82,7 @@ public class SuccessController {
 		
 		session.setRound(round);
 		
-		return "redirect:/index";
+		return "redirect:/ui/play";
 	}
 	
 

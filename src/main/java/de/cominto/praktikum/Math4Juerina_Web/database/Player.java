@@ -8,6 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+/**
+ * Entity Player contains plyerId, userName, Password
+ * the annotations are from spring data
+ */
 @Entity
 public class Player {
 	

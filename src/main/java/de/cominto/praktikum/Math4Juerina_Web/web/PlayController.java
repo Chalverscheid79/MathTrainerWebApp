@@ -19,10 +19,6 @@ import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
  * @author halverscheid
  * controls everything in the active exercise session in connection with the exercises
  */
-/**
- * @author halverscheid
- *
- */
 @Controller
 @RequestMapping("/ui")
 public class PlayController {
@@ -47,8 +43,8 @@ public class PlayController {
 	
 	
 /**
- * Die ModelAndView Klasse ist EINE Möglichkeit die Objekte in der View
- * zu füllen bzw zu beschriften oder damit zu arbeiten
+ * The ModelAndView class is ONE possibility the objects in the view
+ * fill or label or work with it
  * @return ModelAndView
  */
 	
@@ -71,14 +67,14 @@ public class PlayController {
 		if (round.getExercise() != 0) {
 			
 /**
- * 			In die Session wird nur ein neues Task Objekt gelegt wenn es "null" ist
- *			also bei Programm Start oder richtig gelöster aufgabe.
- *			Damit wird auch verhindert, dass beim Reload der website eine neue Aufgabe erstellt wird
+ * 	Only a new task object is placed in the session if it is "null"
+ *  So at program start or correctly solved task.
+ *  This also prevents the reload of the website from creating a new task
  */
 			
 			if (!session.hasTask()) {
 				
-/**
+/*
  * 				ein Objekt der Klasse wird erzeugt und der HttpSession
  * 				zugeordnet.
  */

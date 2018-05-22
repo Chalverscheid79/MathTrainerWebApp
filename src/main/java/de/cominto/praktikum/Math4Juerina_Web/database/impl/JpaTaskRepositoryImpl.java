@@ -10,11 +10,18 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.*;
 
+/**
+ * Query JPA defined in the interface
+ */
 public class JpaTaskRepositoryImpl implements JpaTaskRepository {
     private static final Logger LOG = LoggerFactory.getLogger(JpaTaskRepositoryImpl.class);
     @Autowired
     private EntityManager entityManager;
 
+    /**
+     * Criteria an query how founds the all task in entity
+     * @return the first 10 results in an list objekt, can be null
+     */
     @Override
     public List<Task> findAllTasks() {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -27,8 +34,15 @@ public class JpaTaskRepositoryImpl implements JpaTaskRepository {
 
     }
 
+    /**
+     *  Criteia query how search the last 5 rounds from the actual player without the last round
+     * @param roundObjekt Object from round entity
+     * @param fromDate Date object
+     * @param toDate Date object
+     * @return Object list from WrapperCount class, can be null
+     */
     @Override
-    public List<WrapperCount> findAllTasksFromLastFiveRoundsInfrintAcutalRound(long roundId, Date fromDate, Date toDate) {
+    public List<WrapperCount> findAllTasksFromLastFiveRoundsWithoutAcutalRound(Round roundObjekt, Date fromDate, Date toDate) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<WrapperCount> cq = cb.createQuery(WrapperCount.class);
         Root<Task> task = cq.from(Task.class);
@@ -40,9 +54,13 @@ public class JpaTaskRepositoryImpl implements JpaTaskRepository {
                 cb.count(task.get(Task_.taskId)),
                 round.get(Round_.roundId));
 
-        cq.select(projection).where(cb.equal(round.get(Round_.roundId),roundId)).where(cb.greaterThan(task.get(Task_.practiceDay),
-                fromDate),cb.lessThan(task.get(Task_.practiceDay), toDate),
-                cb.lessThan(round.get(Round_.roundId),roundId)).groupBy(round.get(Round_.roundId),task.get(Task_.correct))
+        cq.select(projection)
+                .where(
+                        cb.greaterThan(task.get(Task_.practiceDay), fromDate),
+                        cb.lessThan(task.get(Task_.practiceDay), toDate),
+                        cb.lessThan(round.get(Round_.roundId),roundObjekt.getRoundId()),
+                        cb.equal(round.get(Round_.player).get(Player_.playerId),roundObjekt.getPlayer().getPlayerId()))
+                .groupBy(round.get(Round_.roundId),task.get(Task_.correct))
                 .orderBy(cb.desc(round.get(Round_.roundId)));
         int maxListLenght = 5;
         List<WrapperCount> wrapperCount = entityManager.createQuery(cq).setMaxResults(maxListLenght * 2).getResultList();
@@ -51,28 +69,15 @@ public class JpaTaskRepositoryImpl implements JpaTaskRepository {
         }
         Set<Long> roundIds = new HashSet<>();
         List<WrapperCount> lastFiveWrapperCounts = new ArrayList<>();
-        /**
-         * TODO beide vorgänge in einer Scheife erledigen ergebnis noch auf userId einschränken,
-         * derzeit werden grundsätzlich die letzten 5 runden gesucht
-         */
 
-        for (WrapperCount wc : wrapperCount){
-            if(roundIds.size() < maxListLenght){
+        for (WrapperCount wc : wrapperCount ){
+            if(roundIds.size() < maxListLenght || roundIds.contains(wc.getRoundId())){
                 roundIds.add(wc.getRoundId());
+                lastFiveWrapperCounts.add(wc);
             }else{
                 break;
             }
-            if(roundIds.contains(wc.getRoundId())){
-                lastFiveWrapperCounts.add(wc);
-            }
         }
-//        for (WrapperCount wc : wrapperCount){
-//            if(roundIds.contains(wc.getRoundId())){
-//                lastFiveWrapperCounts.add(wc);
-//            }
-//        }
-
-        LOG.info("########### JPA: {}", lastFiveWrapperCounts);
         return lastFiveWrapperCounts;
     }
 }

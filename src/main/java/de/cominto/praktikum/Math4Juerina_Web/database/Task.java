@@ -16,7 +16,9 @@ import javax.persistence.TemporalType;
 
 import de.cominto.praktikum.Math4Juerina_Web.service.EnumOperatorImpl;
 
-
+/**
+ * Entity class from task the annotations are from spring data
+ */
 @Entity
 public class Task {
 	@Id

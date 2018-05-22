@@ -6,8 +6,8 @@
 <link rel="stylesheet" type="text/css" href="/layout.css">
 </head>
 <body>
-    <form th:fragment="success-form">
-        <div >
+
+        <div th:fragment="success-form">
             <h1>
                 <span th:text="${'Super ' + userName + ' ,du hast ' + exercise} + ' Aufgaben gerechnet'"></span>
 
@@ -21,16 +21,16 @@
                     <td><p th:text="'Damit hast du ' + (${avg > 40} ? ${avg} + ' % richtig gerechnet' : ' zuviele Fehler. Bitte weiter üben!')" ></p></td>
                 </tr>
                 <tr>
-                    <td><form method="post" action="/success/restart">
-                            <button type="submit" value="submit">Nochmal</button>
-                        </form></td>
+                    <td>
+                        <a class="btn btn-primary" href="/success/restart">Neue Runde beginnen</a>
+                    </td>
                 </tr>
             </table>
             </div>
             <div id="divScroll">
             <table class="centered-text digits-table signs-table centredTable">
                 <thead>
-                    <tr>
+                    <tr >
                         <th>ID</th>
                         <th>Zahl</th>
                         <th> +/-</th>
@@ -56,6 +56,5 @@
             </table>
             </div>
         </div>
-    </form>
-</body>
+    </body>
 </html>

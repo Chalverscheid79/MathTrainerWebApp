@@ -18,6 +18,9 @@ import javax.persistence.Transient;
 
 import de.cominto.praktikum.Math4Juerina_Web.service.Factory;
 
+/**
+ * Entity class from round
+ */
 @Entity
 public class Round {
 	@Id

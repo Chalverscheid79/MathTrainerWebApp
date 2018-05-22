@@ -4,6 +4,9 @@ import de.cominto.praktikum.Math4Juerina_Web.database.Task;
 
 public class Factory {
 
+	/**
+	 * creates a task
+	 */
 	private Factory() {
 	}
 	

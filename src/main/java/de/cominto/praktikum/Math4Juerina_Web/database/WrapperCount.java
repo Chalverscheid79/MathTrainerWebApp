@@ -4,6 +4,9 @@ package de.cominto.praktikum.Math4Juerina_Web.database;
 import java.time.ZoneId;
 import java.util.Date;
 
+/**
+ * auxiliary class for datanbank query
+ */
 public class WrapperCount {
     private boolean correct;
     private long tasks;

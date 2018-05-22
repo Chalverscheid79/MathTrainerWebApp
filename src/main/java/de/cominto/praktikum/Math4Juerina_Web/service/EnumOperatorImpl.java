@@ -5,12 +5,11 @@ public enum EnumOperatorImpl implements EnumOperator {
 	private final String sign;
 	
 	private EnumOperatorImpl(final String sign) {
-		// TODO Automatisch generierter Konstruktorstub
+
 		this.sign = sign;
 	}
 
 	public String getOperator() {
-		// TODO Automatisch generierter Methodenstub
 		return this.sign;
 	}
 

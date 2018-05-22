@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 
 import de.cominto.praktikum.Math4Juerina_Web.MathProperties;
 import de.cominto.praktikum.Math4Juerina_Web.database.*;
-import de.cominto.praktikum.Math4Juerina_Web.database.impl.JpaTaskRepositoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +32,6 @@ public class MathServicesImpl implements MathServices {
 	private TaskRepository taskRepository;
 
 
-//	@Value("${math.userName}")
-//	private String defaultName;
-//	@Value("${math.num_tasks}")
-//	private int defaultExercise;
-
 	@Autowired
 	MathProperties mathProperties;
 
@@ -46,7 +40,6 @@ public class MathServicesImpl implements MathServices {
 
 	public MathServicesImpl() {
 
-//		this.playerRepository = playerRepository;
 	}
 
     /**
@@ -164,12 +157,6 @@ public class MathServicesImpl implements MathServices {
 		}
 
 		correctPercent = 100 - (100 / round.get().getExercise() * errors);
-		
-
-		LOG.info("******* Prozent {} *********",correctPercent);
-		
-//		getNumberOfErrors(round.get().getRoundId(), new Date());
-		
 		return correctPercent;
 	}
 
@@ -194,32 +181,30 @@ public class MathServicesImpl implements MathServices {
 		return tasks;
 	}
 
+	/**
+	 * merge the query results
+	 * @param round entity objekt
+	 * @param playerId long from Player entity
+	 * @return list, can be null
+	 */
     @Override
-    public List<Long> findAllTasksFromLastFiveRoundsInfrintAcutalRound(long roundId) {
+    public List<Long> findAllTasksFromLastFiveRoundsInfrintAcutalRound(Round round, long playerId) {
         LocalDate localDate = LocalDate.now();
         LocalDate pastLocalDate = localDate.minusDays(0);
         Date toDate = Date.from(localDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date fromDate = Date.from(pastLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        List<WrapperCount> list = taskRepository.findAllTasksFromLastFiveRoundsInfrintAcutalRound(roundId, fromDate, toDate);
+        List<WrapperCount> list = taskRepository.findAllTasksFromLastFiveRoundsWithoutAcutalRound(round, fromDate, toDate);
         List<Long> percent = new ArrayList<>();
-//        for(WrapperCount wc : list){
-//            if (wc != null) {
-//                percent.add(getPercentCorrect(list));
-//                LOG.info("****************Percent: {} ---------------",getPercentCorrect(list));
-//            }else{
-//                return null;
-//            }
-//        }
         List<WrapperCount> oneRound = new ArrayList<>();
-        Long currenRound = null;
+        Long currentRound = null;
         for(WrapperCount wrapperCount:list){
-            if (currenRound == null || !currenRound.equals(wrapperCount.getRoundId())){
-                if(currenRound != null){
+            if (currentRound == null || !currentRound.equals(wrapperCount.getRoundId())){
+                if(currentRound != null){
                     percent.add(getPercentCorrect(oneRound));
                 }
                 oneRound.clear();
-                currenRound =wrapperCount.getRoundId();
+                currentRound =wrapperCount.getRoundId();
             }
             oneRound.add(wrapperCount);
         }
@@ -234,7 +219,7 @@ public class MathServicesImpl implements MathServices {
      * coutns errors from task etentity
      * @param id from round etentity
      * @return if optioanal list not present -1 / or if
-     * present number of errors as in
+     * present number of errors as int
      */
 	@Override
 	public int getNumberOfErrors(long id) {
@@ -259,16 +244,15 @@ public class MathServicesImpl implements MathServices {
 				
 			}
 			
-			LOG.info("######################## ERRORS {} ####################",errors);
 		}
 		return errors;
 	}
 
 	/**
-	 *
-	 * @param playerId
-	 * @param priviousDays
-	 * @return
+	 * calls from source / Database all task from player of the called proid of days where result is true
+	 * @param playerId long from Player entity
+	 * @param priviousDays int number of days in past
+	 * @return invoked a method to caculate the percentage of correct task and returns a list of values, can be null
 	 */
 	@Override
 	public long getPercentCorrectFromDateToLocalDate(long playerId, int priviousDays) {
@@ -283,6 +267,13 @@ public class MathServicesImpl implements MathServices {
 		return  getPercentCorrect(list);
 	}
 
+	/**
+	 * The query returns tw values per day. these values are collected together at a date an transferred to a method
+	 * for calculatig the percentage of the correct tasks
+	 * @param playerId long from Player entity
+	 * @param priviousDays int number of days in past
+	 * @return ArrayList <Long> values with percent from correct answers
+	 */
 	@Override
 	public List<Long> getCountAllTaskFromDateToDateGroupByDay(long playerId, int priviousDays) {
 
@@ -326,19 +317,20 @@ public class MathServicesImpl implements MathServices {
 			percentCorrect.add(getPercentCorrect(oneDay));
 		}
 
-		LOG.info("*******##### LocalDate: {}", new Date());
 		return  percentCorrect;
 	}
 
     /**
-     *
-     * @param wrapperCount erwartet max 2 einträge richt / falsch
-     * @return
+     * calculates the percentage of the correct tasks
+     * @param wrapperCount comes up with list of two values per entity objekt.
+	 *                     number of correct tasks and  number of wrong tasks
+     * @return long percent of the right tasks
      */
 	private long getPercentCorrect(List<WrapperCount> wrapperCount){
-	    LOG.info("---------------getPercentCorrect: {}", wrapperCount);
 		long correctAnswers = 0;
 		long wrongAnswers = 0;
+		long percentCorrect;
+
 		for(WrapperCount i : wrapperCount){
 			if(i.isCorrect()){
 				correctAnswers = i.getTasks();
@@ -349,8 +341,7 @@ public class MathServicesImpl implements MathServices {
 
 		}
 		long totalTasks = correctAnswers + wrongAnswers;
-		long percentCorrect = correctAnswers * 100 / totalTasks;
-		LOG.info("##### CORRECT: {} +++++ WRONG: {}",correctAnswers,wrongAnswers);
+		percentCorrect = correctAnswers * 100 / totalTasks;
 		return  percentCorrect;
 	}
 
