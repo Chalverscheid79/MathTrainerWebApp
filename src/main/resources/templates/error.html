@@ -9,13 +9,12 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row" th:insert="~{index :: .header}">
-
-    </div>
+    <div class="row" th:insert="~{index :: .header }">
+        <!-- /* th:insert="~{zu erbende HTML :: zu erbende Stelle}" */ --></div>
+    <div class="row" th:insert="~{index :: .menu}"></div>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12 centered-div">
             <h3>Leider bist du nicht angemeldet</h3>
-            <a href="/index/welcome">Startseite</a>
         </div>
     </div>
 </div>

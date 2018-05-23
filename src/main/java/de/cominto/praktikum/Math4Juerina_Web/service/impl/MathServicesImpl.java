@@ -28,7 +28,7 @@ public class MathServicesImpl implements MathServices {
 	private PlayerRepository playerRepository;
 	@Autowired
 	private RoundRepository roundRepository;
-	@Autowired
+
 	private TaskRepository taskRepository;
 
 
@@ -38,7 +38,10 @@ public class MathServicesImpl implements MathServices {
 	@Autowired
 	private EntityManager em;
 
-	public MathServicesImpl() {
+
+
+	public MathServicesImpl(TaskRepository taskRepository) {
+		this.taskRepository = taskRepository;
 
 	}
 
@@ -156,7 +159,7 @@ public class MathServicesImpl implements MathServices {
 			}
 		}
 
-		correctPercent = 100 - (100 / round.get().getExercise() * errors);
+		correctPercent = Math.round((100 - (100.0 / round.get().getExercise() * errors))*100)/100.0;
 		return correctPercent;
 	}
 
@@ -188,20 +191,20 @@ public class MathServicesImpl implements MathServices {
 	 * @return list, can be null
 	 */
     @Override
-    public List<Long> findAllTasksFromLastFiveRoundsInfrintAcutalRound(Round round, long playerId) {
+    public List<Double> findAllTasksFromLastFiveRoundsInfrintAcutalRound(Round round, long playerId) {
         LocalDate localDate = LocalDate.now();
         LocalDate pastLocalDate = localDate.minusDays(0);
         Date toDate = Date.from(localDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date fromDate = Date.from(pastLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         List<WrapperCount> list = taskRepository.findAllTasksFromLastFiveRoundsWithoutAcutalRound(round, fromDate, toDate);
-        List<Long> percent = new ArrayList<>();
+        List<Double> percent = new ArrayList<>();
         List<WrapperCount> oneRound = new ArrayList<>();
         Long currentRound = null;
         for(WrapperCount wrapperCount:list){
             if (currentRound == null || !currentRound.equals(wrapperCount.getRoundId())){
                 if(currentRound != null){
-                    percent.add(getPercentCorrect(oneRound));
+                    percent.add(Math.round(getPercentCorrect(oneRound)*100.0)/100.0);
                 }
                 oneRound.clear();
                 currentRound =wrapperCount.getRoundId();
@@ -209,10 +212,10 @@ public class MathServicesImpl implements MathServices {
             oneRound.add(wrapperCount);
         }
         if(!oneRound.isEmpty()) {
-            percent.add(getPercentCorrect(oneRound));
+            percent.add(Math.round(getPercentCorrect(oneRound)*100.0)/100.0);
         }
 
-        return  percent;
+        return percent;
     }
 
     /**
@@ -255,7 +258,7 @@ public class MathServicesImpl implements MathServices {
 	 * @return invoked a method to caculate the percentage of correct task and returns a list of values, can be null
 	 */
 	@Override
-	public long getPercentCorrectFromDateToLocalDate(long playerId, int priviousDays) {
+	public Double getPercentCorrectFromDateToLocalDate(long playerId, int priviousDays) {
 
 		LocalDate localDate = LocalDate.now();
 		LocalDate pastLocalDate = localDate.minusDays(priviousDays);
@@ -264,7 +267,7 @@ public class MathServicesImpl implements MathServices {
 
 		List<WrapperCount> list = taskRepository.countAllTaskFromDateToDate(playerId,fromDate,toDate);
 
-		return  getPercentCorrect(list);
+		return  Math.round(getPercentCorrect(list)*100.0)/100.0;
 	}
 
 	/**
@@ -275,7 +278,7 @@ public class MathServicesImpl implements MathServices {
 	 * @return ArrayList <Long> values with percent from correct answers
 	 */
 	@Override
-	public List<Long> getCountAllTaskFromDateToDateGroupByDay(long playerId, int priviousDays) {
+	public List<Double> getCountAllTaskFromDateToDateGroupByDay(long playerId, int priviousDays) {
 
 		LocalDate localDate = LocalDate.now();
 		LocalDate pastLocalDate = localDate.minusDays(priviousDays);
@@ -283,7 +286,7 @@ public class MathServicesImpl implements MathServices {
 		Date fromDate = Date.from(pastLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
 		List<WrapperCount> list = taskRepository.countAllTaskFromDateToDateGroupByDay(playerId, fromDate, toDate);
-		List <Long> percentCorrect = new ArrayList<>();
+		List <Double> percentCorrect = new ArrayList<>();
 		/*
 			SQL Result:
 			2018-05-04	0	2
@@ -306,7 +309,7 @@ public class MathServicesImpl implements MathServices {
 		for(WrapperCount wrapperCount:list){
 			if (currentDay == null || !currentDay.equals(wrapperCount.getDay())){
 				if(currentDay != null){
-					percentCorrect.add(getPercentCorrect(oneDay));
+					percentCorrect.add( (Math.round(getPercentCorrect(oneDay)*100)/100.0));
 				}
 				oneDay.clear();
 				currentDay=wrapperCount.getDay();
@@ -314,8 +317,7 @@ public class MathServicesImpl implements MathServices {
 			oneDay.add(wrapperCount);
 		}
 		if(!oneDay.isEmpty()) {
-			percentCorrect.add(getPercentCorrect(oneDay));
-		}
+			percentCorrect.add( (Math.round(getPercentCorrect(oneDay)*100)/100.0));		}
 
 		return  percentCorrect;
 	}
@@ -326,10 +328,10 @@ public class MathServicesImpl implements MathServices {
 	 *                     number of correct tasks and  number of wrong tasks
      * @return long percent of the right tasks
      */
-	private long getPercentCorrect(List<WrapperCount> wrapperCount){
-		long correctAnswers = 0;
-		long wrongAnswers = 0;
-		long percentCorrect;
+	private double getPercentCorrect(List<WrapperCount> wrapperCount){
+		double correctAnswers = 0;
+		double wrongAnswers = 0;
+		double percentCorrect;
 
 		for(WrapperCount i : wrapperCount){
 			if(i.isCorrect()){
@@ -340,8 +342,8 @@ public class MathServicesImpl implements MathServices {
 			}
 
 		}
-		long totalTasks = correctAnswers + wrongAnswers;
-		percentCorrect = correctAnswers * 100 / totalTasks;
+		double totalTasks = correctAnswers + wrongAnswers;
+		percentCorrect = correctAnswers * 100.0 / totalTasks;
 		return  percentCorrect;
 	}
 

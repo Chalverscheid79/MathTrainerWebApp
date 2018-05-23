@@ -24,9 +24,9 @@ public class WrapperCount {
             this(correct, task, roundId,null);
         }
 
-    public WrapperCount(boolean correct, long task, long roundId, Date day){
+    public WrapperCount(boolean correct, long tasks, long roundId, Date day){
         this.correct = correct;
-        this.tasks = task;
+        this.tasks = tasks;
         this.roundId = roundId;
         if(day != null){
             this.day = Date.from(day.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant());

@@ -5,7 +5,7 @@
 <div style="position: relative; height: 200px;">
     <div th:each="listElement,iterStat:${fiveDayRefletkionLeftList} " class="left-diagram-div" th:style="'left:' + ${iterStat.index * 35 + 10}+ 'px'">
         <div class="success-colored-div" th:style="'height:'+(${listElement * 2}+'px') + ';' + 'background-color:'+ ((${listElement} > '90')?  'green': ((${listElement} >= '50')?  'yellow': 'red'))+';'"></div>
-        <div style="position: absolute; top: 50%; transform: translate(0, -50%) rotate(270deg) ">
+        <div class="text-position-success">
             <span th:text="${listElement} +'%'"></span></div>
     </div>
 </div>

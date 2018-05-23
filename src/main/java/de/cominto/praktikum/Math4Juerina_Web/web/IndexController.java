@@ -14,11 +14,7 @@ import de.cominto.praktikum.Math4Juerina_Web.database.Player;
 import de.cominto.praktikum.Math4Juerina_Web.database.Round;
 import de.cominto.praktikum.Math4Juerina_Web.database.TaskRepository;
 import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 
 /**
  * controls the dynamic content of the view

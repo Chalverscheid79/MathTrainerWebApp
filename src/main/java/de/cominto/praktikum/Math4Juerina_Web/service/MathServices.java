@@ -24,14 +24,14 @@ public interface MathServices {
 	Task saveTask(Task task);
 	Collection<Task>findByLastRoundAndDay(long userId, long roundId, Date date);
 
-	List<Long>findAllTasksFromLastFiveRoundsInfrintAcutalRound(Round round, long playerId);
+	List<Double>findAllTasksFromLastFiveRoundsInfrintAcutalRound(Round round, long playerId);
 	
 	
 	double getCorrectPercent(long rundId);
 	
 	int getNumberOfErrors(long roundId);
 
-	long getPercentCorrectFromDateToLocalDate(long playerId, int priviousDays);
-	List<Long> getCountAllTaskFromDateToDateGroupByDay(long playerId, int priviousDays);
+	Double getPercentCorrectFromDateToLocalDate(long playerId, int priviousDays);
+	List<Double> getCountAllTaskFromDateToDateGroupByDay(long playerId, int priviousDays);
 
 }
