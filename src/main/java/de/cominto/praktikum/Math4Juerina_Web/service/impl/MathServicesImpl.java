@@ -58,7 +58,7 @@ public class MathServicesImpl implements MathServices {
 
 		player = playerRepository.findFirstByUserName(userName);
 
-		// Player wird nur in die Datenbank geschrieben wenn er noch nicht da war
+    // Player wird nur in die Datenbank geschrieben wenn er noch nicht da war
 		if (player == null) {
 			player = new Player(userName);
 			playerRepository.save(player);
@@ -73,13 +73,9 @@ public class MathServicesImpl implements MathServices {
      * @return object from Round, cannot null
      */
 	@Override
-	public Round getRound(int exercise, Player player) {
+	public Round getRound(final int exercise, final Player player) {
 
-		if (exercise < 10) {
-			exercise = mathProperties.getNumTasks();
-		}
-
-		Round round = new Round(exercise, player);
+		Round round = new Round(Math.max(exercise, this.mathProperties.getNumTasks()), player);
 		round.setDay(new Date());
 		saveRound(round);
 		return round;
@@ -91,7 +87,7 @@ public class MathServicesImpl implements MathServices {
      * @return saved entity
      */
 	@Override
-	public Round saveRound(Round round) {
+	public Round saveRound(final Round round) {
 
 		roundRepository.save(round);
 		return round;
@@ -114,7 +110,7 @@ public class MathServicesImpl implements MathServices {
      * @return saved entity
      */
 	@Override
-	public Task saveTask(Task task) {
+	public Task saveTask(final Task task) {
 
 		taskRepository.save(task);
 		return task;
