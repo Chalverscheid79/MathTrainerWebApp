@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import de.cominto.praktikum.Math4Juerina_Web.database.Player;
 import de.cominto.praktikum.Math4Juerina_Web.database.Round;
 import de.cominto.praktikum.Math4Juerina_Web.database.Task;
 
@@ -26,45 +25,47 @@ public class MathSession {
 	private static final String ROUND = "round";
 	private static final String SOLUTION = "solution";
 	
-	@Autowired
-	private HttpSession session;
-	
+	private HttpSession httpSession;
+
+	public MathSession(HttpSession httpSession) {
+		this.httpSession = httpSession;
+	}
 
 	/**
-	 * Get the Task object from session
+	 * Get the Task object from httpSession
 	 * @return object. Can return null.
 	 */
 	public Task getTask() {
 		
-		return (Task)this.session.getAttribute(TASK);
+		return (Task)this.httpSession.getAttribute(TASK);
 	}
 	
 	/**
-	 * Get the round object from the session.
+	 * Get the round object from the httpSession.
 	 * 
 	 * @return The round object. Can return null.
 	 */
 	public Round getRound() {
 	
-		return (Round)this.session.getAttribute(ROUND);
+		return (Round)this.httpSession.getAttribute(ROUND);
 	}
 	
 	/**
-	 * set a object of Round in session
+	 * set a object of Round in httpSession
 	 * 
 	 * @param round
 	 */
 	public void setRound (Round round) {
-		session.setAttribute(ROUND, round);
+		httpSession.setAttribute(ROUND, round);
 	}
 	
 	/**
-	 * set a object of Task in session
+	 * set a object of Task in httpSession
 	 * 
 	 * @param task
 	 */
 	public void setTask (Task task) {
-		session.setAttribute(TASK, task);
+		httpSession.setAttribute(TASK, task);
 	}
 	
 	/**
@@ -74,39 +75,39 @@ public class MathSession {
 	 */
 	public Round removeRound() {
 		Round round = getRound();
-		session.removeAttribute(ROUND);
+		httpSession.removeAttribute(ROUND);
 		return round;
 	}
 	
 	/**
-	 * remove the Task object from session
+	 * remove the Task object from httpSession
 	 * 
 	 * @return the last Task object. Can return null.
 	 */
 	public Task removeTask() {
 		Task task = getTask();
-		session.removeAttribute(TASK);
+		httpSession.removeAttribute(TASK);
 		return task;
 	}
 	
 	/**
-	 * remove the solution Boolean from session
+	 * remove the solution Boolean from httpSession
 	 * 
 	 * @return the last solution boolean
 	 */
 	public Boolean removeSolution() {
 		Boolean isCorrect = isCorrect();
-		session.removeAttribute(SOLUTION);
+		httpSession.removeAttribute(SOLUTION);
 		return isCorrect;
 	}
 	
 	/**
-	 * removes all object (attributes) from session
+	 * removes all object (attributes) from httpSession
 	 */
 	public void clear() {
-		Enumeration<String> enumeration = session.getAttributeNames(); 
+		Enumeration<String> enumeration = httpSession.getAttributeNames();
 		while (enumeration.hasMoreElements()) {
-			session.removeAttribute(enumeration.nextElement());
+			httpSession.removeAttribute(enumeration.nextElement());
 		}
 	}
 	
@@ -116,17 +117,17 @@ public class MathSession {
 	 * @return boolean (true or false)
 	 */
 	public boolean hasRound() {
-		return session.getAttribute(ROUND) != null;
+		return httpSession.getAttribute(ROUND) != null;
 	}
 	
 	/**
-	 * Get the Boolean from session
+	 * Get the Boolean from httpSession
 	 * 
 	 * @return Boolean. Can return null
 	 */
 	public Boolean isCorrect() {
 		
-		return (Boolean) session.getAttribute(SOLUTION);
+		return (Boolean) httpSession.getAttribute(SOLUTION);
 	}
 	
 	/**
@@ -135,7 +136,7 @@ public class MathSession {
 	 */
 	public void setCorrect(boolean solution) {
 		
-		session.setAttribute(SOLUTION ,solution);
+		httpSession.setAttribute(SOLUTION ,solution);
 	}
 	
 
@@ -145,7 +146,7 @@ public class MathSession {
 	 * @return boolean
 	 */
 	public boolean hasTask() {
-		return session.getAttribute(TASK) != null;
+		return httpSession.getAttribute(TASK) != null;
 	}
 
 }

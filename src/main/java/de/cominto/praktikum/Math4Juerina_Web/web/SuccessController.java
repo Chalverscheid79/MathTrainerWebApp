@@ -28,14 +28,14 @@ public class SuccessController {
 	
 	private static final String VIEW_INDEX = "index";
 	
-	@Autowired
 	private MathSession session;
-	
-	@Autowired
 	private MathServices mathServices;
 
+	public SuccessController(MathSession mathSession, MathServices mathServices) {
+		this.session = mathSession;
+		this.mathServices = mathServices;
+	}
 
-	
 	@RequestMapping("/praise") // loben
 	public ModelAndView getpraise() {
 

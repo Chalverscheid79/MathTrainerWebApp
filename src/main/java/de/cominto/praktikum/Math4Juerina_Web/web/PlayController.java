@@ -17,7 +17,7 @@ import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
 
 /**
  * @author halverscheid
- * controls everything in the active exercise session in connection with the exercises
+ * controls everything in the active exercise mathSession in connection with the exercises
  */
 @Controller
 @RequestMapping("/ui")
@@ -33,16 +33,17 @@ public class PlayController {
 	private static final Logger LOG = LoggerFactory.getLogger(PlayController.class);
 	
 	@Autowired
-	private MathSession session;
+	private MathSession mathSession;
 	
 	@Autowired
 	private MathServices mathServices;
-	
-	
-	
-	
-	
-/**
+
+	public PlayController(MathSession mathSession, MathServices mathServices) {
+		this.mathSession = mathSession;
+		this.mathServices = mathServices;
+	}
+
+	/**
  * The ModelAndView class is ONE possibility the objects in the view
  * fill or label or work with it
  * @return ModelAndView
@@ -59,7 +60,7 @@ public class PlayController {
 		
 
 		
-		Round round = session.getRound();
+		Round round = mathSession.getRound();
 		
 
 		final ModelAndView view = new ModelAndView();
@@ -67,22 +68,22 @@ public class PlayController {
 		if (round.getExercise() != 0) {
 			
 /**
- * 	Only a new task object is placed in the session if it is "null"
+ * 	Only a new task object is placed in the mathSession if it is "null"
  *  So at program start or correctly solved task.
  *  This also prevents the reload of the website from creating a new task
  */
 			
-			if (!session.hasTask()) {
+			if (!mathSession.hasTask()) {
 				
 /*
  * 				ein Objekt der Klasse wird erzeugt und der HttpSession
  * 				zugeordnet.
  */
-				session.setTask( round.createTask());
+				mathSession.setTask( round.createTask());
 			}
 
-//			Das in session abgelegte Objekt wird wieder zu "Task" gecastet
-			Task task = session.getTask();
+//			Das in mathSession abgelegte Objekt wird wieder zu "Task" gecastet
+			Task task = mathSession.getTask();
 			
 //			Die VIEW (html || jsp) wird ausgewählt
 			view.setViewName(VIEW_PLAY);
@@ -91,9 +92,9 @@ public class PlayController {
 			view.addObject("page", "play");
 			view.addObject("page_fragment","play-form");
 			
-//			Das session Objekt der Klasse Task wird an die Methode "stringbuilder" übergeben
+//			Das mathSession Objekt der Klasse Task wird an die Methode "stringbuilder" übergeben
 			view.addObject(TASK,  task);
-//			Das Attribute "richtig" der session wird an das Lbl der View übergeben
+//			Das Attribute "richtig" der mathSession wird an das Lbl der View übergeben
 			
 //			Infoausgabe der "Logger"-Klasse... Achtung weiter Informationen einholen
 			LOG.info("Aufgabe Nr: {}",round.getStartExercise() - round.getExercise());
@@ -101,7 +102,7 @@ public class PlayController {
 //			Aktuelle Aufgabenmenge wird um ein reduziert
 			round.countDownExercise();
 			
-			view.addObject(SOLUTION_CORRECT, session.isCorrect());
+			view.addObject(SOLUTION_CORRECT, mathSession.isCorrect());
 			
 		}else {
 			
@@ -110,7 +111,7 @@ public class PlayController {
 			round.restartRound(round.getStartExercise());
 
 		}
-		session.removeSolution();
+		mathSession.removeSolution();
 		
 		return view;
 	}
@@ -124,15 +125,15 @@ public class PlayController {
 	public ModelAndView wrongTask(@RequestParam(name = ERROR, required = false) String param) {
 		
 		final ModelAndView view = new ModelAndView();
-		if (! session.hasTask()) {
+		if (! mathSession.hasTask()) {
 			view.setViewName("redirect:/index/welcome");
 		}else {
 		view.setViewName(VIEW_PLAY);
 		view.addObject("page", "play");
 		view.addObject("page_fragment","play-form");
-		view.addObject(TASK,  session.getTask());
+		view.addObject(TASK,  mathSession.getTask());
 		view.addObject(ERROR, param);
-		view.addObject(SOLUTION_CORRECT, session.isCorrect());
+		view.addObject(SOLUTION_CORRECT, mathSession.isCorrect());
 		}
 		
 		return view;
@@ -148,12 +149,12 @@ public class PlayController {
 	 */
 	@RequestMapping("/checkTask")
 	public String submit(@RequestParam String result, Model model)  {
-		if (! session.hasTask()) {
+		if (! mathSession.hasTask()) {
 			return "redirect:/index/welcome";
 		}
 		
-		Round round = session.getRound();
-		Task task = (session.getTask());
+		Round round = mathSession.getRound();
+		Task task = (mathSession.getTask());
 		
 		LOG.info("Result: {}", result);
 		int res = 0;
@@ -169,7 +170,7 @@ public class PlayController {
 		}
 		
 		task.checkResult(res);
-		session.setCorrect(task.isCorrect());
+		mathSession.setCorrect(task.isCorrect());
 		
 		
 		task.setTaskId(null);
@@ -180,7 +181,7 @@ public class PlayController {
 		
 		if (task.isCorrect()) {
 			mathServices.saveTask(task);
-			session.removeTask();
+			mathSession.removeTask();
 			round.resetWrongSolution();
 			return "redirect:/ui/play";
 		}
@@ -189,7 +190,7 @@ public class PlayController {
 			
 			if (round.getWrongSolution()== 3) {
 				mathServices.saveTask(task);
-				session.removeTask();
+				mathSession.removeTask();
 				return "redirect:/ui/play";
 			}
 			return "redirect:/ui/wrong";

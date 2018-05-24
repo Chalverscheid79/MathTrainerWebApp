@@ -28,18 +28,17 @@ public class IndexController {
 	private static final String WELCOME = "redirect:/index/welcome";
 	private static final String INDEX = "index";
 	private static final String PLAY = "redirect:/ui/play";
-	
-	@Autowired
-	private MathServices mathServices;
-	
-	@Autowired
-	TaskRepository taskre;
-	
-	//TODO auskommentieren
-	@Autowired
-	private MathSession session;
 
-	
+	private MathServices mathServices;
+	private TaskRepository taskre;
+	private MathSession mathSession;
+
+	public IndexController(MathServices mathServices,TaskRepository taskre,MathSession mathSession) {
+		this.mathServices = mathServices;
+		this.taskre = taskre;
+		this.mathSession = mathSession;
+	}
+
 	/**
 	 * Go to the home page of the mathetrainer
 	 * 
@@ -68,7 +67,7 @@ public class IndexController {
 		
 
 		Round round = mathServices.getRound(exercise, player);
-		session.setRound(round);
+		mathSession.setRound(round);
 
 		return PLAY;
 	}
@@ -76,7 +75,7 @@ public class IndexController {
 	@RequestMapping("signout")
 	public String signOut(){
 
-		session.clear();
+		mathSession.clear();
 
 		return WELCOME;
 	}

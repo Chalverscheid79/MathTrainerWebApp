@@ -8,9 +8,9 @@ import javax.persistence.EntityManager;
 
 import de.cominto.praktikum.Math4Juerina_Web.MathProperties;
 import de.cominto.praktikum.Math4Juerina_Web.database.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,48 +24,44 @@ import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
 public class MathServicesImpl implements MathServices {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MathServicesImpl.class);
-    @Autowired
 	private PlayerRepository playerRepository;
-	@Autowired
 	private RoundRepository roundRepository;
-
 	private TaskRepository taskRepository;
+	private MathProperties mathProperties;
+	private EntityManager entityManager;
 
-
-	@Autowired
-	MathProperties mathProperties;
-
-	@Autowired
-	private EntityManager em;
-
-
-
-	public MathServicesImpl(TaskRepository taskRepository) {
+	public MathServicesImpl(TaskRepository taskRepository, PlayerRepository playerRepository,
+							RoundRepository roundRepository, MathProperties mathProperties,
+							EntityManager entityManager) {
 		this.taskRepository = taskRepository;
-
+		this.playerRepository = playerRepository;
+		this.roundRepository = roundRepository;
+		this.mathProperties = mathProperties;
+		this.entityManager = entityManager;
 	}
 
     /**
      * load player from database or create new player object
-     * @param userName String from userConfig
+     * @param userNameInput String from userConfig
      * @return Player, can#t be null
      */
 	@Override
-	public Player loadPlayer(String userName) {
-
+	public Player loadPlayer(final String userNameInput) {
+		String userName = userNameInput;
 		Player player;
 
 		// eventuelle whitspaceses entfernen und auf Leerstring prüfen
-		if (userName.trim().equals("")) {
+		//if (userName.trim().equals("")) {
+		if (StringUtils.isBlank(userName)) {
 			userName = mathProperties.getUserName();
 		}
 
+		player = playerRepository.findFirstByUserName(userName);
+
 		// Player wird nur in die Datenbank geschrieben wenn er noch nicht da war
-		if (playerRepository.findByUserName(userName).isEmpty()) {
+		if (player == null) {
 			player = new Player(userName);
 			playerRepository.save(player);
-		} else {
-			player = playerRepository.findFirstByUserName(userName);
 		}
 		return player;
 	}
@@ -137,8 +133,8 @@ public class MathServicesImpl implements MathServices {
 
 		LOG.info("*** getCorrectPercent({}) ***", id);
 	
-		this.em.flush();
-		this.em.clear();
+		this.entityManager.flush();
+		this.entityManager.clear();
 		
 		Optional<Round> round = roundRepository.findById(id);
 		if (!round.isPresent()) {
@@ -227,8 +223,8 @@ public class MathServicesImpl implements MathServices {
 	@Override
 	public int getNumberOfErrors(long id) {
 
-		this.em.flush();
-		this.em.clear();
+		this.entityManager.flush();
+		this.entityManager.clear();
 		
 		Optional<Round> round = roundRepository.findById(id);
 		if (!round.isPresent()) {
