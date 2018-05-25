@@ -125,7 +125,7 @@ public class MathServicesImpl implements MathServices {
      * @return amount of the right solutions in percent, can be -1
      */
 	@Override
-	public double getCorrectPercent(long id) {
+	public double getCorrectPercent(final long id) {
 
 		LOG.info("*** getCorrectPercent({}) ***", id);
 	
@@ -217,7 +217,7 @@ public class MathServicesImpl implements MathServices {
      * present number of errors as int
      */
 	@Override
-	public int getNumberOfErrors(long id) {
+	public int getNumberOfErrors(final long id) {
 
 		this.entityManager.flush();
 		this.entityManager.clear();

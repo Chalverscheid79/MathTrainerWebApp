@@ -12,16 +12,13 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.persistence.EntityManager;
 import java.util.*;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.collection.IsEmptyCollection.emptyCollectionOf;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
 
 public class MathServicesImplTest {
 
@@ -121,9 +118,10 @@ public class MathServicesImplTest {
     public void getRound() {
         Round round;
         int exercise = 9;
-        when(this.mathProperties.getNumTasks()).thenReturn(10);
+        int value = 10;
+        Mockito.when(this.mathProperties.getNumTasks()).thenReturn(10);
         round = this.mathServices.getRound(exercise,new Player());
-        assertThat(round.getExercise(),is(10));
+        assertThat(round.getExercise(),is(value));
 
 
 
@@ -131,49 +129,17 @@ public class MathServicesImplTest {
 
     @Test
     public void saveRound() {
+        Round round;
+        Mockito.when(this.roundRepository.save(Mockito.any())).thenReturn(new Round());
+        round = mathServices.saveRound(new Round());
+        assertThat(round,is(notNullValue()));
+        verify(roundRepository).save(Mockito.any());
     }
 
-    @Test
-    public void findRoundById() {
-    }
 
-    @Test
-    public void saveTask() {
-    }
-
-    @Test
-    public void getCorrectPercent() {
-    }
-
-    @Test
-    public void findByLastRoundAndDay() {
-    }
 
     @Test
     public void findAllTasksFromLastFiveRoundsInfrintAcutalRound() {
-
-        LOG.info("Wert 1 {}",random.nextInt());
-        TaskRepository taskRepository = Mockito.mock(TaskRepository.class);
-        Mockito.when(taskRepository.findAllTasksFromLastFiveRoundsWithoutAcutalRound(Mockito.any(),Mockito.any(),Mockito.any())).thenReturn(Collections.emptyList());
-        MathServices mathServices = new MathServicesImpl(taskRepository,null,null,null ,null);
-        Round round = new Round();
-
-        List<Double> tasks = mathServices.findAllTasksFromLastFiveRoundsInfrintAcutalRound(round, 1);
-        assertThat(tasks, is(notNullValue()));
-        assertThat(tasks,is(emptyCollectionOf(Double.class)));
-
-        verify(taskRepository).findAllTasksFromLastFiveRoundsWithoutAcutalRound(Mockito.any(),Mockito.any(),Mockito.any());
-
-        LOG.info("Wert 1 {}",random.nextInt());
-        Mockito.when(taskRepository.findAllTasksFromLastFiveRoundsWithoutAcutalRound(Mockito.any(),Mockito.any(),Mockito.any())).thenReturn(Collections.emptyList());
-        assertThat(tasks, is(notNullValue()));
-        assertThat(tasks,is(emptyCollectionOf(Double.class)));
-
-        verify(taskRepository).findAllTasksFromLastFiveRoundsWithoutAcutalRound(Mockito.any(),Mockito.any(),Mockito.any());
-    }
-
-    @Test
-    public void findAllTasksFromLastFiveRoundsInfrintAcutalRound2() {
         final int numRoundIds = random.nextInt(5)+1;
         Set<Long> roundIds = new TreeSet<>();
         List<WrapperCount> wrapperCounts = new ArrayList();
@@ -220,15 +186,4 @@ public class MathServicesImplTest {
         verify(taskRepository).findAllTasksFromLastFiveRoundsWithoutAcutalRound(Mockito.any(),Mockito.any(),Mockito.any());
     }
 
-    @Test
-    public void getNumberOfErrors() {
-    }
-
-    @Test
-    public void getPercentCorrectFromDateToLocalDate() {
-    }
-
-    @Test
-    public void getCountAllTaskFromDateToDateGroupByDay() {
-    }
 }
