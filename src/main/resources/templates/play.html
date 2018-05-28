@@ -19,7 +19,7 @@
 				<!--/*  th ist aus der timelifeengine und das Untermalte ist weil die IDE den Befehl nicht kennt  */-->
 				<label for="result" th:text="${task.getX()} + ' ' + ${task.getEnumOperator().getOperator()}+ ' ' + ${task.getY()} + ' ='">Caption</label>
 				<!--/* <br/><label for="result" th:text="|${task.getX()} ${task.getEnumOperator().getOperator()} ${task.getY()} =|">Caption</label>*/-->
-				<input id="result" type="number" name="result" autofocus="autofocus"size="3" maxlength="3" min="0" max="100"><br>
+				<input id="result" type="number" name="result" autofocus="autofocus" size="3" maxlength="3" min="0" max="100"/><br/>
 				<label  th:text="${reflection} ? 'richtig' : (${reflection} == null ? '' : 'falsch')">Caption</label>
 			</div>
 						<button type="submit" class="btn btn-primary">weiter</button>

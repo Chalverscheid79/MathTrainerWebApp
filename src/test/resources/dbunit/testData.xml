@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dataset>
-    <Player userName="Chris"/>
-    <Player userName="Kai"/>
-    <Player userName="Ahoi"/>
+
+    <Player player_id='100' user_name="chris"/>
+    <Player player_id='101' user_name="kai"/>
+    <Player player_id='102' user_name="ahoi"/>
+
+    <Round round_id="1003" exercise="1" start_millis="123" stop_millis="456" wrong_solution="2" player_id="100" day="2018-05-28"/>
+    <Round round_id="1004" exercise="1" start_millis="123" stop_millis="456" wrong_solution="2" player_id="101" day="2018-05-28"/>
+    <Round round_id="1005" exercise="1" start_millis="123" stop_millis="456" wrong_solution="2" player_id="102" day="2018-05-28"/>
+
+    <Task task_id="1" correct="true" enum_operator="+" suggested_solution="10" x="5" y="5" round_id="1003" practice_day="2018-05-28"/>
+    <Task task_id="2" correct="true" enum_operator="+" suggested_solution="10" x="5" y="5" round_id="1004" practice_day="2018-05-28"/>
+    <Task task_id="3" correct="true" enum_operator="+" suggested_solution="10" x="5" y="5" round_id="1005" practice_day="2018-05-28"/>
 </dataset>
