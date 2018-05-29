@@ -20,7 +20,7 @@
 				<label for="result" th:text="${task.getX()} + ' ' + ${task.getEnumOperator().getOperator()}+ ' ' + ${task.getY()} + ' ='">Caption</label>
 				<!--/* <br/><label for="result" th:text="|${task.getX()} ${task.getEnumOperator().getOperator()} ${task.getY()} =|">Caption</label>*/-->
 				<input id="result" type="number" name="result" autofocus="autofocus" size="3" maxlength="3" min="0" max="100"/><br/>
-				<label  th:text="${reflection} ? 'richtig' : (${reflection} == null ? '' : 'falsch')">Caption</label>
+				<label  th:text="${reflection} ? 'richtig' : (${reflection} == null ? '' : 'falsch')"></label>
 			</div>
 						<button type="submit" class="btn btn-primary">weiter</button>
             <div class="form-group" id="divRef" th:text="${error}"></div>

@@ -118,12 +118,12 @@ public class PlayController {
 	
 	/**
 	 * is called if the task was solved incorrectly and repeats the task until it is correct
-	 * @param param calls the that only allows digits
+	 * or the player has 3 solutions
 	 * @return ModelAndView for next action
 	 */
 	@RequestMapping("/wrong")					// "name = "error", required = false" macht den Übergabeparameter zu einer "kann"-Option
-	public ModelAndView wrongTask(@RequestParam(name = ERROR, required = false) String param) {
-		
+	public ModelAndView wrongTask() {
+
 		final ModelAndView view = new ModelAndView();
 		if (! mathSession.hasTask()) {
 			view.setViewName("redirect:/index/welcome");
@@ -132,7 +132,6 @@ public class PlayController {
 		view.addObject("page", "play");
 		view.addObject("page_fragment","play-form");
 		view.addObject(TASK,  mathSession.getTask());
-		view.addObject(ERROR, param);
 		view.addObject(SOLUTION_CORRECT, mathSession.isCorrect());
 		}
 		
@@ -147,14 +146,19 @@ public class PlayController {
 	 * @param model contains data for exeption handling
 	 * @return String with redirect next mapping
 	 */
+
+	//todo beim senden eines leeren result feldes entweder default wert mit geben (schlechte lösung) oder zur erneuten eingabe auffordern
 	@RequestMapping("/checkTask")
-	public String submit(@RequestParam String result, Model model)  {
-		if (! mathSession.hasTask()) {
+	public String submit(@RequestParam(value = "result", required = false) String result, Model model)  {
+		if (! mathSession.hasTask() && result.isEmpty()) {
 			return "redirect:/index/welcome";
 		}
+//		if(result.isEmpty()){
+//		    result = "";
+//        }
 		
 		Round round = mathSession.getRound();
-		Task task = (mathSession.getTask());
+		Task task = mathSession.getTask();
 		
 		LOG.info("Result: {}", result);
 		int res = 0;
@@ -164,6 +168,8 @@ public class PlayController {
 		}catch(NumberFormatException e){
 			e.printStackTrace();
 
+            model.addAttribute("page", "play");
+            model.addAttribute("page_fragment","play-form");
 			model.addAttribute(TASK,  task);
 			model.addAttribute(ERROR, "Bitte Zahlen eingeben");
 			return VIEW_PLAY;
@@ -172,7 +178,9 @@ public class PlayController {
 		task.checkResult(res);
 		mathSession.setCorrect(task.isCorrect());
 		
-		
+		/*
+		* set values for database entry
+		*/
 		task.setTaskId(null);
 		task.setRound(round);
 		task.setPracticeDay(new Date());

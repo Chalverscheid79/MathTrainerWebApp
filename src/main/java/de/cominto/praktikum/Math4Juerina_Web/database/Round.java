@@ -137,6 +137,9 @@ public class Round {
 		wrongSolution++;
 
 	}
+	public void setWrongSolution(int wrongSolution){
+		this.wrongSolution = wrongSolution;
+	}
 	public void restartRound(Integer i) {
 		this.exercise  = i;
 		this.player = getPlayer();

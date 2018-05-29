@@ -21,10 +21,12 @@ import de.cominto.praktikum.Math4Juerina_Web.database.Task;
  */
 @Component
 public class MathSession {
-	
-	private static final String TASK = "task";
-	private static final String ROUND = "round";
-	private static final String SOLUTION = "solution";
+	/**
+	 * todo
+	 */
+	public static final String TASK = "task";
+	public static final String ROUND = "round";
+	public static final String SOLUTION = "solution";
 	
 	private HttpSession httpSession;
 
@@ -142,7 +144,7 @@ public class MathSession {
 	
 
 	/**
-	 * Check if a round is in the object
+	 * Check if a task is in the object
 	 * 
 	 * @return boolean
 	 */
