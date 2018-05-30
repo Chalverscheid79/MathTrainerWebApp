@@ -1,15 +1,117 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dataset>
 
-    <Player player_id='100' user_name="chris"/>
-    <Player player_id='101' user_name="kai"/>
-    <Player player_id='102' user_name="ahoi"/>
+    <Player player_id="1" user_name="unnamed user" />
+    <Player player_id="2" user_name="Chris" />
+    <Player player_id="3" user_name="hjkhjk" />
+    <Player player_id="4" user_name="Kai" />
+    <Player player_id="5" user_name="Papa" />
+    <Player player_id="8" user_name="test" />
+    <Player player_id="9" user_name="ahoi" />
 
-    <Round round_id="1003" exercise="1" start_millis="123" stop_millis="456" wrong_solution="2" player_id="100" day="2018-05-28"/>
-    <Round round_id="1004" exercise="1" start_millis="123" stop_millis="456" wrong_solution="2" player_id="101" day="2018-05-28"/>
-    <Round round_id="1005" exercise="1" start_millis="123" stop_millis="456" wrong_solution="2" player_id="102" day="2018-05-28"/>
+    <Round round_id="8" exercise="5"  start_millis="1525428285476"  stop_millis="1525428335476" wrong_solution="1" player_id="1" day="2018-05-04"/>
+    <Round round_id="9" exercise="5"  start_millis="1525429591839"  stop_millis="1525429641839" wrong_solution="0" player_id="1" day="2018-05-04"/>
+    <Round round_id="10" exercise="5"  start_millis="1525430575092"  stop_millis="1525430625092" wrong_solution="0" player_id="1" day="2018-05-04"/>
+    <Round round_id="11" exercise="5"  start_millis="1525442744818"  stop_millis="1525442794818" wrong_solution="0" player_id="1" day="2018-05-04"/>
+    <Round round_id="12" exercise="5"  start_millis="1525443194139"  stop_millis="1525443244139" wrong_solution="0" player_id="1" day="2018-05-04"/>
+    <Round round_id="13" exercise="5"  start_millis="1525443255984"  stop_millis="1525443305984" wrong_solution="0" player_id="1" day="2018-05-04"/>
+    <Round round_id="14" exercise="5"  start_millis="1525443415230"  stop_millis="1525443465230" wrong_solution="0" player_id="1" day="2018-05-04"/>
+    <Round round_id="15" exercise="5"  start_millis="1525443934639"  stop_millis="1525443984639" wrong_solution="0" player_id="1" day="2018-05-04"/>
+    <Round round_id="16" exercise="5"  start_millis="1525444082600"  stop_millis="1525444132600" wrong_solution="1" player_id="1" day="2018-05-04"/>
+    <Round round_id="17" exercise="5"  start_millis="1525687302060"  stop_millis="1525687352060" wrong_solution="1" player_id="1" day="2018-05-07"/>
+    <Round round_id="18" exercise="5"  start_millis="1525697671368"  stop_millis="1525697721368" wrong_solution="0" player_id="2" day="2018-05-07"/>
+    <Round round_id="19" exercise="5"  start_millis="1525697833222"  stop_millis="1525697883222" wrong_solution="0" player_id="2" day="2018-05-07"/>
+    <Round round_id="20" exercise="5"  start_millis="1525703532245"  stop_millis="1525703582245" wrong_solution="0" player_id="2" day="2018-05-07"/>
+    <Round round_id="21" exercise="5"  start_millis="1525705036834"  stop_millis="1525705086834" wrong_solution="0" player_id="3" day="2018-05-07"/>
+    <Round round_id="22" exercise="5"  start_millis="1525705113896"  stop_millis="1525705163896" wrong_solution="0" player_id="4" day="2018-05-07"/>
+    <Round round_id="23" exercise="5"  start_millis="1525705320318"  stop_millis="1525705370318" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="24" exercise="5"  start_millis="1525706010541"  stop_millis="1525706060541" wrong_solution="8" player_id="1" day="2018-05-07"/>
+    <Round round_id="25" exercise="5"  start_millis="1525706226508"  stop_millis="1525706276508" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="26" exercise="1"  start_millis="1525706296040"  stop_millis="1525706306040" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="27" exercise="1"  start_millis="1525706348729"  stop_millis="1525706358729" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="28" exercise="1"  start_millis="1525706734285"  stop_millis="1525706744285" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="29" exercise="1"  start_millis="1525707141528"  stop_millis="1525707151528" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="30" exercise="1"  start_millis="1525707206724"  stop_millis="1525707216724" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="31" exercise="1"  start_millis="1525707249665"  stop_millis="1525707259665" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="32" exercise="1"  start_millis="1525707402499"  stop_millis="1525707412499" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="33" exercise="1"  start_millis="1525707435227"  stop_millis="1525707445227" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="34" exercise="1"  start_millis="1525707468912"  stop_millis="1525707478912" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="35" exercise="2"  start_millis="1525707640604"  stop_millis="1525707660604" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="36" exercise="1"  start_millis="1525707708933"  stop_millis="1525707728933" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="37" exercise="2"  start_millis="1525707830811"  stop_millis="1525707850811" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="38" exercise="2"  start_millis="1525708017727"  stop_millis="1525708037727" wrong_solution="0" player_id="1" day="2018-05-07"/>
+    <Round round_id="39" exercise="2"  start_millis="1525759767897"  stop_millis="1525759787897" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="40" exercise="2"  start_millis="1525759801683"  stop_millis="1525759821683" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="41" exercise="2"  start_millis="1525759865962"  stop_millis="1525759885962" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="42" exercise="2"  start_millis="1525761174604"  stop_millis="1525761194604" wrong_solution="1" player_id="1" day="2018-05-08"/>
+    <Round round_id="43" exercise="2"  start_millis="1525761219050"  stop_millis="1525761239050" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="44" exercise="2"  start_millis="1525761308404"  stop_millis="1525761328404" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="45" exercise="2"  start_millis="1525761646024"  stop_millis="1525761666024" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="46" exercise="2"  start_millis="1525761877122"  stop_millis="1525761897122" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="47" exercise="2"  start_millis="1525763927437"  stop_millis="1525763947437" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="48" exercise="2"  start_millis="1525764191018"  stop_millis="1525764211018" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="49" exercise="2"  start_millis="1525764551936"  stop_millis="1525764571936" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="50" exercise="2"  start_millis="1525764737859"  stop_millis="1525764757859" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="51" exercise="2"  start_millis="1525764805699"  stop_millis="1525764825699" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="52" exercise="2"  start_millis="1525767572287"  stop_millis="1525767592287" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="53" exercise="2"  start_millis="1525767635637"  stop_millis="1525767655637" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="54" exercise="2"  start_millis="1525768017485"  stop_millis="1525768037485" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="55" exercise="2"  start_millis="1525768500270"  stop_millis="1525768520270" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="56" exercise="2"  start_millis="1525768539781"  stop_millis="1525768559781" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="57" exercise="2"  start_millis="1525768546004"  stop_millis="1525768566004" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="58" exercise="2"  start_millis="1525769204794"  stop_millis="1525769224794" wrong_solution="1" player_id="1" day="2018-05-08"/>
+    <Round round_id="59" exercise="2"  start_millis="1525769489506"  stop_millis="1525769509506" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="60" exercise="2"  start_millis="1525769612256"  stop_millis="1525769632256" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="61" exercise="2"  start_millis="1525770029846"  stop_millis="1525770049846" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="62" exercise="2"  start_millis="1525770213635"  stop_millis="1525770233635" wrong_solution="1" player_id="1" day="2018-05-08"/>
+    <Round round_id="63" exercise="2"  start_millis="1525774193622"  stop_millis="1525774213622" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="64" exercise="2"  start_millis="1525776080813"  stop_millis="1525776100813" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="65" exercise="2"  start_millis="1525778867499"  stop_millis="1525778887499" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="66" exercise="2"  start_millis="1525779523725"  stop_millis="1525779543725" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="67" exercise="2"  start_millis="1525779691841"  stop_millis="1525779711841" wrong_solution="0" player_id="1" day="2018-05-08"/>
+    <Round round_id="68" exercise="2"  start_millis="1525782277751"  stop_millis="1525782297751" wrong_solution="2" player_id="1" day="2018-05-08"/>
+    <Round round_id="69" exercise="2"  start_millis="1525782424445"  stop_millis="1525782444445" wrong_solution="2" player_id="1" day="2018-05-08"/>
+    <Round round_id="70" exercise="2"  start_millis="1525782945418"  stop_millis="1525782965418" wrong_solution="1" player_id="1" day="2018-05-08"/>
+    <Round round_id="71" exercise="2"  start_millis="1525783114287"  stop_millis="1525783134287" wrong_solution="1" player_id="1" day="2018-05-08"/>
 
-    <Task task_id="1" correct="true" enum_operator="+" suggested_solution="10" x="5" y="5" round_id="1003" practice_day="2018-05-28"/>
-    <Task task_id="2" correct="true" enum_operator="+" suggested_solution="10" x="5" y="5" round_id="1004" practice_day="2018-05-28"/>
-    <Task task_id="3" correct="true" enum_operator="+" suggested_solution="10" x="5" y="5" round_id="1005" practice_day="2018-05-28"/>
+    <Task task_id="33" correct="true"  enum_operator="ADD"  suggested_solution="17" x="16" y="1" round_id="8" practice_day="2018-05-04 12:04:47"/>
+    <Task task_id="34" correct="true"  enum_operator="SUB"  suggested_solution="2" x="5" y="3" round_id="8" practice_day="2018-05-04 12:04:48"/>
+    <Task task_id="35" correct="true"  enum_operator="SUB"  suggested_solution="60" x="80" y="20" round_id="8" practice_day="2018-05-04 12:04:50"/>
+    <Task task_id="37" correct="true"  enum_operator="SUB"  suggested_solution="15" x="19" y="4" round_id="8" practice_day="2018-05-04 12:04:54"/>
+    <Task task_id="38" correct="true"  enum_operator="ADD"  suggested_solution="16" x="15" y="1" round_id="8" practice_day="2018-05-04 12:04:56"/>
+    <Task task_id="39" correct="true"  enum_operator="ADD"  suggested_solution="12" x="6" y="6" round_id="9" practice_day="2018-05-04 12:26:34"/>
+    <Task task_id="40" correct="true"  enum_operator="SUB"  suggested_solution="7" x="9" y="2" round_id="9" practice_day="2018-05-04 12:26:39"/>
+    <Task task_id="41" correct="true"  enum_operator="SUB"  suggested_solution="0" x="10" y="10" round_id="9" practice_day="2018-05-04 12:26:40"/>
+    <Task task_id="42" correct="true"  enum_operator="SUB"  suggested_solution="1" x="3" y="2" round_id="9" practice_day="2018-05-04 12:26:41"/>
+    <Task task_id="43" correct="true"  enum_operator="ADD"  suggested_solution="17" x="15" y="2" round_id="9" practice_day="2018-05-04 12:26:43"/>
+    <Task task_id="44" correct="true"  enum_operator="ADD"  suggested_solution="17" x="11" y="6" round_id="10" practice_day="2018-05-04 12:42:58"/>
+    <Task task_id="45" correct="true"  enum_operator="SUB"  suggested_solution="12" x="18" y="6" round_id="10" practice_day="2018-05-04 12:43:01"/>
+    <Task task_id="46" correct="true"  enum_operator="SUB"  suggested_solution="0" x="60" y="60" round_id="10" practice_day="2018-05-04 12:43:02"/>
+    <Task task_id="47" correct="true"  enum_operator="SUB"  suggested_solution="1" x="7" y="6" round_id="10" practice_day="2018-05-04 12:43:04"/>
+    <Task task_id="48" correct="true"  enum_operator="ADD"  suggested_solution="7" x="5" y="2" round_id="10" practice_day="2018-05-04 12:43:05"/>
+    <Task task_id="49" correct="true"  enum_operator="ADD"  suggested_solution="19" x="14" y="5" round_id="11" practice_day="2018-05-04 16:06:18"/>
+    <Task task_id="50" correct="true"  enum_operator="SUB"  suggested_solution="2" x="12" y="10" round_id="11" practice_day="2018-05-04 16:06:23"/>
+    <Task task_id="51" correct="true"  enum_operator="SUB"  suggested_solution="20" x="60" y="40" round_id="11" practice_day="2018-05-04 16:06:33"/>
+    <Task task_id="52" correct="true"  enum_operator="ADD"  suggested_solution="20" x="17" y="3" round_id="12" practice_day="2018-05-04 16:13:17"/>
+    <Task task_id="53" correct="true"  enum_operator="ADD"  suggested_solution="20" x="15" y="5" round_id="13" practice_day="2018-05-04 16:14:29"/>
+    <Task task_id="36" correct="false"  enum_operator="SUB"  suggested_solution="23" x="19" y="4" round_id="8" practice_day="2018-05-04 12:04:52"/>
+    <Task task_id="56" correct="false"  enum_operator="SUB"  suggested_solution="2" x="11" y="6" round_id="16" practice_day="2018-05-04 16:28:07"/>
+    <Task task_id="63" correct="false"  enum_operator="SUB"  suggested_solution="0" x="30" y="0" round_id="17" practice_day="2018-05-07 12:01:55"/>
+    <Task task_id="97" correct="false"  enum_operator="ADD"  suggested_solution="1" x="13" y="7" round_id="24" practice_day="2018-05-07 17:13:32"/>
+    <Task task_id="98" correct="false"  enum_operator="ADD"  suggested_solution="1" x="13" y="7" round_id="24" practice_day="2018-05-07 17:13:33"/>
+    <Task task_id="99" correct="false"  enum_operator="ADD"  suggested_solution="1" x="13" y="7" round_id="24" practice_day="2018-05-07 17:13:33"/>
+    <Task task_id="100" correct="false"  enum_operator="ADD"  suggested_solution="1" x="13" y="7" round_id="24" practice_day="2018-05-07 17:13:34"/>
+    <Task task_id="101" correct="false"  enum_operator="ADD"  suggested_solution="1" x="13" y="7" round_id="24" practice_day="2018-05-07 17:13:34"/>
+    <Task task_id="102" correct="false"  enum_operator="ADD"  suggested_solution="1" x="13" y="7" round_id="24" practice_day="2018-05-07 17:13:35"/>
+    <Task task_id="103" correct="false"  enum_operator="ADD"  suggested_solution="1" x="13" y="7" round_id="24" practice_day="2018-05-07 17:13:36"/>
+    <Task task_id="104" correct="false"  enum_operator="ADD"  suggested_solution="1" x="13" y="7" round_id="24" practice_day="2018-05-07 17:13:36"/>
+    <Task task_id="129" correct="false"  enum_operator="SUB"  suggested_solution="14" x="13" y="1" round_id="42" practice_day="2018-05-08 08:32:59"/>
+    <Task task_id="157" correct="false"  enum_operator="ADD"  suggested_solution="3" x="10" y="7" round_id="58" practice_day="2018-05-08 10:46:48"/>
+    <Task task_id="166" correct="false"  enum_operator="ADD"  suggested_solution="0" x="12" y="2" round_id="62" practice_day="2018-05-08 11:03:35"/>
+    <Task task_id="180" correct="false"  enum_operator="SUB"  suggested_solution="0" x="11" y="5" round_id="68" practice_day="2018-05-08 14:24:41"/>
+    <Task task_id="181" correct="false"  enum_operator="SUB"  suggested_solution="9" x="11" y="5" round_id="68" practice_day="2018-05-08 14:24:44"/>
+    <Task task_id="184" correct="false"  enum_operator="SUB"  suggested_solution="0" x="3" y="2" round_id="69" practice_day="2018-05-08 14:27:08"/>
+    <Task task_id="185" correct="false"  enum_operator="SUB"  suggested_solution="0" x="3" y="2" round_id="69" practice_day="2018-05-08 14:27:10"/>
+    <Task task_id="188" correct="false"  enum_operator="SUB"  suggested_solution="1" x="2" y="2" round_id="70" practice_day="2018-05-08 14:35:51"/>
+    <Task task_id="191" correct="false"  enum_operator="SUB"  suggested_solution="2" x="1" y="1" round_id="71" practice_day="2018-05-08 14:38:38"/>
 </dataset>

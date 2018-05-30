@@ -279,6 +279,8 @@ public class MathServicesImpl implements MathServices {
 
 		List<WrapperCount> list = taskRepository.countAllTaskFromDateToDateGroupByDay(playerId, fromDate, toDate);
 		List <Double> percentCorrect = new ArrayList<>();
+		List<WrapperCount> oneDay = new ArrayList<>();
+		Date currentDay = null;
 		/*
 			SQL Result:
 			2018-05-04	0	2
@@ -296,8 +298,6 @@ public class MathServicesImpl implements MathServices {
 			2018-05-15	1	34
 			2018-05-16	1	48
 		 */
-		List<WrapperCount> oneDay = new ArrayList<>();
-		Date currentDay = null;
 		for(WrapperCount wrapperCount:list){
 			if (currentDay == null || !currentDay.equals(wrapperCount.getDay())){
 				if(currentDay != null){

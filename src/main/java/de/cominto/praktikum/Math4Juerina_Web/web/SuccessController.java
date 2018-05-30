@@ -42,7 +42,6 @@ public class SuccessController {
 		ModelAndView view = new ModelAndView();
 		Round round = session.getRound();
 		mathServices.saveRound(round);
-		//		LOG.info("********* TEST: {}",mathServices.getPercentCorrectFromDateToLocalDate(session.getPlayer().getPlayerId(),30));
 		view.setViewName(VIEW_INDEX);
 		view.addObject("userName", round.getUserName());
 		view.addObject("page", "success");
@@ -56,7 +55,6 @@ public class SuccessController {
 		view.addObject("actualRoundId", round.getRoundId());
 		view.addObject("fiveDayRefletkionLeftList",mathServices.getCountAllTaskFromDateToDateGroupByDay(session.getRound().getPlayer().getPlayerId(),5));
 		view.addObject("fiveRoundRefletkionRightList",mathServices.findAllTasksFromLastFiveRoundsInfrintAcutalRound(session.getRound(), session.getRound().getPlayer().getPlayerId()));
-		LOG.info("#####Controller: {} *****************",mathServices.findAllTasksFromLastFiveRoundsInfrintAcutalRound(session.getRound(),session.getRound().getPlayer().getPlayerId()));
 
 		/*
 		 * Die Entity Objekte werden in eine "List" geladen gemaess der Abfrage aus der Repository
@@ -75,7 +73,6 @@ public class SuccessController {
 			
 			return "redirect:/index/welcome";
 		}
-		//TODO Nullpointer behandeln
 		Round oldRound = session.removeRound();
 		
 		Round round = mathServices.getRound(oldRound.getStartExercise(), oldRound.getPlayer());

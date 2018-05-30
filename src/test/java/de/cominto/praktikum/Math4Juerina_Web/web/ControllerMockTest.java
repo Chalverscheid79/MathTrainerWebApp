@@ -1,14 +1,12 @@
 package de.cominto.praktikum.Math4Juerina_Web.web;
 
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import de.cominto.praktikum.Math4Juerina_Web.database.*;
 import de.cominto.praktikum.Math4Juerina_Web.service.EnumOperatorImpl;
 import de.cominto.praktikum.Math4Juerina_Web.service.Factory;
-import de.cominto.praktikum.Math4Juerina_Web.service.impl.MathServicesImpl;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,16 +15,23 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.servlet.http.HttpSession;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import static org.hamcrest.Matchers.*;
+import static java.time.ZoneId.systemDefault;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -36,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @ActiveProfiles({"integration"})
 @AutoConfigureMockMvc
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class})
 public class ControllerMockTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControllerMockTest.class);
@@ -84,6 +90,10 @@ public class ControllerMockTest {
         Player player = new Player("ahoi");
 
         Round round = Mockito.mock(Round.class);
+
+
+
+
         Mockito.when(round.getPlayer()).thenReturn(player);
         Mockito.when(round.getUserName()).thenReturn(player.getUserName());
         Mockito.when(round.getExercise()).thenReturn(2);
@@ -227,7 +237,38 @@ public class ControllerMockTest {
                ).andExpect(redirectedUrl("/ui/wrong"));
     }
 
+    private void updateDatabase(){
+        Clock clock = Clock.fixed(Instant.ofEpochMilli(1525730400000L),systemDefault());
+        LocalDate localDate = LocalDate.now(clock);
 
+        long startDate = 1525730400000L;
+        long endDate = System.currentTimeMillis();
+        int dif = (int)TimeUnit.MILLISECONDS.toDays(Math.abs(endDate - startDate));
+
+        LOG.info("##############clock: {}", localDate);
+        LOG.info("###############Diference: {}", dif);
+        LOG.info("###############Local add Days: {}", localDate.plusDays(dif));
+
+        Calendar cal = Calendar.getInstance();
+
+        for (Round oneRound : roundRepository.findAll()){
+            cal.setTime(oneRound.getDay());
+            cal.add(Calendar.DAY_OF_MONTH,dif);
+            oneRound.setDay(cal.getTime());
+            roundRepository.save(oneRound);
+            LOG.info("##############Changed Date in entity: {}, RoundId {}}", oneRound.getDay(), oneRound.getRoundId());
+            for(Task oneTask : taskRepository.findByRoundRoundId(oneRound.getRoundId())){
+                cal.setTime(oneTask.getPracticeDay());
+                cal.add(Calendar.DAY_OF_MONTH,dif);
+                oneTask.setPracticeDay(cal.getTime());
+                LOG.info("##############Changed Date in entity: {}, TaskId {}", oneTask.getPracticeDay(), oneTask.getTaskId());
+                taskRepository.save(oneTask);
+            }
+        }
+        int i = 0;
+        for (Task t : taskRepository.findAll()) i++;
+        LOG.info("############## datasize {}",i);
+    }
 
 
 
