@@ -1,10 +1,13 @@
 package de.cominto.praktikum.Math4Juerina_Web.web;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import de.cominto.praktikum.Math4Juerina_Web.database.*;
 import de.cominto.praktikum.Math4Juerina_Web.service.EnumOperatorImpl;
 import de.cominto.praktikum.Math4Juerina_Web.service.Factory;
+import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -24,10 +27,8 @@ import javax.servlet.http.HttpSession;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Iterator;
-import java.util.List;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static java.time.ZoneId.systemDefault;
@@ -54,6 +55,8 @@ public class ControllerMockTest {
     RoundRepository roundRepository;
     @Autowired
     TaskRepository taskRepository;
+    @Autowired
+    MathServices mathServices;
 
 
     @Test
@@ -237,9 +240,34 @@ public class ControllerMockTest {
                ).andExpect(redirectedUrl("/ui/wrong"));
     }
 
+    @Test
+    @DatabaseSetup(value={"/dbunit/testData.xml"})
+    public void getPraiseTest() throws Exception{
+        double  testValueFiftyPercent = 50.0;
+        double testValueCorrectPercent = 83.33;
+        updateDatabase();
+        List<Task> tasks = new ArrayList<>();
+        taskRepository.findAll().forEach(tasks :: add);
+        assertThat(mathServices.getPercentCorrectFromDateToLocalDate(1,30),is(testValueFiftyPercent));
+        assertThat(mathServices.getCorrectPercent(8),is(testValueCorrectPercent));
+        //erwartete Werte
+        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).size(),is(2));     // ein feld zu viel (doppelt)
+        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(0),is(90.91)); // Richtig erste Tag
+        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(1),is(0.0));   // 100% fehler zweite Tag, Tag 3 bleibt aussenvor
+
+//        List<WrapperCount>wrapperCountList =
+        LOG.info("############ Size List: {}",tasks.size());
+        LOG.info("############ FirstPracticeDay: {}",tasks.get(0).getPracticeDay());
+        LOG.info("############ Lsst PraticeDay: {}",tasks.get(39).getPracticeDay());
+        LOG.info("############ correctPercent List: {}",mathServices.getCorrectPercent(8));
+        LOG.info("############ fiveDay List: {} ",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).size());
+        LOG.info("############ firstDay List: {} Date: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(0));
+        LOG.info("############ secoundDay List: {} Date: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(1));
+        LOG.info("############ thirdDay List: {} Date: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(2));
+    }
+
     private void updateDatabase(){
-        Clock clock = Clock.fixed(Instant.ofEpochMilli(1525730400000L),systemDefault());
-        LocalDate localDate = LocalDate.now(clock);
+        LocalDate localDate = LocalDate.now();
 
         long startDate = 1525730400000L;
         long endDate = System.currentTimeMillis();
@@ -251,22 +279,37 @@ public class ControllerMockTest {
 
         Calendar cal = Calendar.getInstance();
 
-        for (Round oneRound : roundRepository.findAll()){
+        Iterable<Round> iterableRound = roundRepository.findAll();
+        List<Round> roundList = new ArrayList<>();
+        iterableRound.forEach(roundList :: add);
+        List<Task> taskList = new ArrayList<>();
+
+        for (Round oneRound : roundList){
             cal.setTime(oneRound.getDay());
             cal.add(Calendar.DAY_OF_MONTH,dif);
+            cal.set(Calendar.HOUR_OF_DAY,0);
+            cal.set(Calendar.MINUTE,0);
+            cal.set(Calendar.SECOND,0);
             oneRound.setDay(cal.getTime());
             roundRepository.save(oneRound);
             LOG.info("##############Changed Date in entity: {}, RoundId {}}", oneRound.getDay(), oneRound.getRoundId());
-            for(Task oneTask : taskRepository.findByRoundRoundId(oneRound.getRoundId())){
+            taskList = taskRepository.findByRoundRoundId(oneRound.getRoundId());
+            for(Task oneTask : taskList){
                 cal.setTime(oneTask.getPracticeDay());
                 cal.add(Calendar.DAY_OF_MONTH,dif);
+                cal.set(Calendar.HOUR_OF_DAY,0);
+                cal.set(Calendar.MINUTE,0);
+                cal.set(Calendar.SECOND,0);
                 oneTask.setPracticeDay(cal.getTime());
                 LOG.info("##############Changed Date in entity: {}, TaskId {}", oneTask.getPracticeDay(), oneTask.getTaskId());
                 taskRepository.save(oneTask);
             }
         }
         int i = 0;
-        for (Task t : taskRepository.findAll()) i++;
+        Iterable<Task> iterableTasks = taskRepository.findAll();
+        List<Task>  taskListCount = new ArrayList<>();
+        iterableTasks.forEach(taskListCount :: add);
+        for (Task t : taskListCount) i++;
         LOG.info("############## datasize {}",i);
     }
 

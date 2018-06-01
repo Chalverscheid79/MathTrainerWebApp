@@ -121,18 +121,18 @@ public class MathServicesImpl implements MathServices {
 
     /**
      * Search by roundId all wrong solutions from task and counts them
-     * @param id Round rounId
+     * @param rundId
      * @return amount of the right solutions in percent, can be -1
      */
 	@Override
-	public double getCorrectPercent(final long id) {
+	public double getCorrectPercent(final long rundId) {
 
-		LOG.info("*** getCorrectPercent({}) ***", id);
+		LOG.info("*** getCorrectPercent({}) ***", rundId);
 	
 		this.entityManager.flush();
 		this.entityManager.clear();
 		
-		Optional<Round> round = roundRepository.findById(id);
+		Optional<Round> round = roundRepository.findById(rundId);
 		if (!round.isPresent()) {
 
 			return -1;
@@ -142,16 +142,22 @@ public class MathServicesImpl implements MathServices {
 
 		List<Task> tasks = round.get().getTasks();
 		double correctPercent;
-		int errors = 0;
+		double errors = 0;
+		double correct = 0;
+		double total = 0;
+
 
 		for (Task task : tasks) {
 			if (! task.isCorrect()) {
 				errors++;
 				
+			}else{
+				correct++;
 			}
+			total = errors + correct;
 		}
 
-		correctPercent = Math.round((100 - (100.0 / round.get().getExercise() * errors))*100)/100.0;
+		correctPercent = Math.round(correct * 100.0 / total *100)/100.0;
 		return correctPercent;
 	}
 
@@ -247,7 +253,8 @@ public class MathServicesImpl implements MathServices {
 	 * calls from source / Database all task from player of the called proid of days where result is true
 	 * @param playerId long from Player entity
 	 * @param priviousDays int number of days in past
-	 * @return invoked a method to caculate the percentage of correct task and returns a list of values, can be null
+	 * @return invoked a method to caculate the percentage of correct task and returns a list of values as double,
+	 * 			can be null
 	 */
 	@Override
 	public Double getPercentCorrectFromDateToLocalDate(long playerId, int priviousDays) {
@@ -257,9 +264,9 @@ public class MathServicesImpl implements MathServices {
 		Date toDate = Date.from(localDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
 		Date fromDate = Date.from(pastLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-		List<WrapperCount> list = taskRepository.countAllTaskFromDateToDate(playerId,fromDate,toDate);
+		List<WrapperCount> listTasks = taskRepository.countAllTaskFromDateToDate(playerId,fromDate,toDate);
 
-		return  Math.round(getPercentCorrect(list)*100.0)/100.0;
+		return  Math.round(getPercentCorrect(listTasks)*100.0)/100.0;
 	}
 
 	/**
@@ -278,6 +285,8 @@ public class MathServicesImpl implements MathServices {
 		Date fromDate = Date.from(pastLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
 		List<WrapperCount> list = taskRepository.countAllTaskFromDateToDateGroupByDay(playerId, fromDate, toDate);
+//		for (int i = 0; i< list.size();i++)
+//		LOG.info("####################### WrapperDate: {} ********************",list.get(i).getDay());
 		List <Double> percentCorrect = new ArrayList<>();
 		List<WrapperCount> oneDay = new ArrayList<>();
 		Date currentDay = null;
@@ -302,6 +311,7 @@ public class MathServicesImpl implements MathServices {
 			if (currentDay == null || !currentDay.equals(wrapperCount.getDay())){
 				if(currentDay != null){
 					percentCorrect.add( (Math.round(getPercentCorrect(oneDay)*100)/100.0));
+					LOG.info("####################### WrapperDate: {} ********************",wrapperCount.getDay());
 				}
 				oneDay.clear();
 				currentDay=wrapperCount.getDay();
@@ -309,16 +319,19 @@ public class MathServicesImpl implements MathServices {
 			oneDay.add(wrapperCount);
 		}
 		if(!oneDay.isEmpty()) {
-			percentCorrect.add( (Math.round(getPercentCorrect(oneDay)*100)/100.0));		}
+			percentCorrect.add( (Math.round(getPercentCorrect(oneDay)*100)/100.0));
+		LOG.info("####################### WrapperDate oneDay: {} ********************",oneDay.get(0).getDay());
+		}
+		LOG.info("####################### percent: {} ********************",percentCorrect.size());
 
 		return  percentCorrect;
 	}
 
     /**
      * calculates the percentage of the correct tasks
-     * @param wrapperCount comes up with list of two values per entity objekt.
+     * @param /List</WrapperCount> comes up with list of two values per entity objekt.
 	 *                     number of correct tasks and  number of wrong tasks
-     * @return long percent of the right tasks
+     * @return double percent of the right tasks
      */
 	private double getPercentCorrect(List<WrapperCount> wrapperCount){
 		double correctAnswers = 0;
