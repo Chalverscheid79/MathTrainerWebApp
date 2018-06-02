@@ -308,7 +308,8 @@ public class MathServicesImpl implements MathServices {
 			2018-05-16	1	48
 		 */
 		for(WrapperCount wrapperCount:list){
-			if (currentDay == null || !currentDay.equals(wrapperCount.getDay())){
+//			hier wird der Eintrag des Aktuellen Tages in der list übersprungen
+			if (currentDay == null || ! currentDay.equals(wrapperCount.getDay())){
 				if(currentDay != null){
 					percentCorrect.add( (Math.round(getPercentCorrect(oneDay)*100)/100.0));
 					LOG.info("####################### WrapperDate: {} ********************",wrapperCount.getDay());
@@ -318,11 +319,18 @@ public class MathServicesImpl implements MathServices {
 			}
 			oneDay.add(wrapperCount);
 		}
+
 		if(!oneDay.isEmpty()) {
 			percentCorrect.add( (Math.round(getPercentCorrect(oneDay)*100)/100.0));
 		LOG.info("####################### WrapperDate oneDay: {} ********************",oneDay.get(0).getDay());
 		}
 		LOG.info("####################### percent: {} ********************",percentCorrect.size());
+
+		/*
+			Gilt für die Testdaten:
+			hier entstehen am ende 3 einträge im Array, eines für den ersten Tag (90,91% richtig  und die dif falsch)
+			sowie eines für den Vortag.
+		 */
 
 		return  percentCorrect;
 	}

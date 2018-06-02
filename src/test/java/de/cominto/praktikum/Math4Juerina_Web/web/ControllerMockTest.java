@@ -251,9 +251,10 @@ public class ControllerMockTest {
         assertThat(mathServices.getPercentCorrectFromDateToLocalDate(1,30),is(testValueFiftyPercent));
         assertThat(mathServices.getCorrectPercent(8),is(testValueCorrectPercent));
         //erwartete Werte
-        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).size(),is(2));     // ein feld zu viel (doppelt)
-        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(0),is(90.91)); // Richtig erste Tag
-        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(1),is(0.0));   // 100% fehler zweite Tag, Tag 3 bleibt aussenvor
+        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).size(),is(3));
+        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(0),is(0.0)); // zweiter Tag Tesdaten 0.0% richtig
+        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(1),is(0.0));   // 0.0% erster Tag Tesdaten (richtig)
+        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(2),is(90.91));   // 90,91% erster Tag Tesdaten (richtig)
 
 //        List<WrapperCount>wrapperCountList =
         LOG.info("############ Size List: {}",tasks.size());
@@ -261,9 +262,9 @@ public class ControllerMockTest {
         LOG.info("############ Lsst PraticeDay: {}",tasks.get(39).getPracticeDay());
         LOG.info("############ correctPercent List: {}",mathServices.getCorrectPercent(8));
         LOG.info("############ fiveDay List: {} ",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).size());
-        LOG.info("############ firstDay List: {} Date: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(0));
-        LOG.info("############ secoundDay List: {} Date: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(1));
-        LOG.info("############ thirdDay List: {} Date: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(2));
+        LOG.info("############ first entry List: {} Date: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(0));
+        LOG.info("############ secound entry List: {} Date: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(1));
+        LOG.info("############ third entry List: {} Date: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(2));
     }
 
     private void updateDatabase(){

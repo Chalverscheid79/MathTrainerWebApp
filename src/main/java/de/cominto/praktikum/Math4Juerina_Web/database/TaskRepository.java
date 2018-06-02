@@ -42,7 +42,8 @@ public interface TaskRepository extends CrudRepository<Task, Long>, JpaTaskRepos
 				" join r.player p" +
 				" where p.playerId = :playerId" +
 				" and t.practiceDay >= :fromDate and t.practiceDay   < :toDate" +
-				" group by substring(t.practiceDay,1,10),t.correct")
+				" group by substring(t.practiceDay,1,10),t.correct" +
+				" order by substring(t.practiceDay,1,10) desc")
 		List <WrapperCount> countAllTaskFromDateToDateGroupByDay(@Param("playerId") long playerId, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
 
 	/**
