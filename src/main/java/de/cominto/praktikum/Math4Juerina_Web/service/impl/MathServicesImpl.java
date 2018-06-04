@@ -1,20 +1,18 @@
 package de.cominto.praktikum.Math4Juerina_Web.service.impl;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.*;
-
-import javax.persistence.EntityManager;
-
 import de.cominto.praktikum.Math4Juerina_Web.MathProperties;
 import de.cominto.praktikum.Math4Juerina_Web.database.*;
+import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
+import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 /**
  *
@@ -189,7 +187,7 @@ public class MathServicesImpl implements MathServices {
 	 * @return list, can be null
 	 */
     @Override
-    public List<Double> findAllTasksFromLastFiveRoundsInfrintAcutalRound(Round round, long playerId) {
+    public List<Double> findAllTasksFromLastFiveRoundsInFrontAcutalRound(Round round, long playerId) {
         LocalDate localDate = LocalDate.now();
         LocalDate pastLocalDate = localDate.minusDays(0);
         Date toDate = Date.from(localDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -274,7 +272,7 @@ public class MathServicesImpl implements MathServices {
 	 * for calculatig the percentage of the correct tasks
 	 * @param playerId long from Player entity
 	 * @param priviousDays int number of days in past
-	 * @return ArrayList <Long> values with percent from correct answers
+	 * @return ArrayList as Long values with percent from correct answers
 	 */
 	@Override
 	public List<Double> getCountAllTaskFromDateToDateGroupByDay(long playerId, int priviousDays) {
@@ -312,7 +310,6 @@ public class MathServicesImpl implements MathServices {
 			if (currentDay == null || ! currentDay.equals(wrapperCount.getDay())){
 				if(currentDay != null){
 					percentCorrect.add( (Math.round(getPercentCorrect(oneDay)*100)/100.0));
-					LOG.info("####################### WrapperDate: {} ********************",wrapperCount.getDay());
 				}
 				oneDay.clear();
 				currentDay=wrapperCount.getDay();
@@ -322,9 +319,7 @@ public class MathServicesImpl implements MathServices {
 
 		if(!oneDay.isEmpty()) {
 			percentCorrect.add( (Math.round(getPercentCorrect(oneDay)*100)/100.0));
-		LOG.info("####################### WrapperDate oneDay: {} ********************",oneDay.get(0).getDay());
 		}
-		LOG.info("####################### percent: {} ********************",percentCorrect.size());
 
 		/*
 			Gilt für die Testdaten:

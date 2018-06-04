@@ -1,11 +1,11 @@
 package de.cominto.praktikum.Math4Juerina_Web.database;
 
-import java.util.Date;
-import java.util.List;
-
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * definition of spring data queries from the entity Task
@@ -43,7 +43,7 @@ public interface TaskRepository extends CrudRepository<Task, Long>, JpaTaskRepos
 				" where p.playerId = :playerId" +
 				" and t.practiceDay >= :fromDate and t.practiceDay   < :toDate" +
 				" group by substring(t.practiceDay,1,10),t.correct" +
-				" order by substring(t.practiceDay,1,10) desc")
+				" order by substring(t.practiceDay,1,10) asc")
 		List <WrapperCount> countAllTaskFromDateToDateGroupByDay(@Param("playerId") long playerId, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
 
 	/**

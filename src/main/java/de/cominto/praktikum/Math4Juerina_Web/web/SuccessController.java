@@ -1,19 +1,16 @@
 package de.cominto.praktikum.Math4Juerina_Web.web;
 
-import java.util.Collection;
-import java.util.Date;
-
-import de.cominto.praktikum.Math4Juerina_Web.database.WrapperCount;
+import de.cominto.praktikum.Math4Juerina_Web.database.Round;
+import de.cominto.praktikum.Math4Juerina_Web.database.Task;
+import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import de.cominto.praktikum.Math4Juerina_Web.database.Round;
-import de.cominto.praktikum.Math4Juerina_Web.database.Task;
-import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
+import java.util.Collection;
+import java.util.Date;
 
 /**
  * controls the dynamic content of the view
@@ -54,7 +51,7 @@ public class SuccessController {
 		view.addObject("error",mathServices.getNumberOfErrors(round.getRoundId()));
 		view.addObject("actualRoundId", round.getRoundId());
 		view.addObject("fiveDayRefletkionLeftList",mathServices.getCountAllTaskFromDateToDateGroupByDay(session.getRound().getPlayer().getPlayerId(),5));
-		view.addObject("fiveRoundRefletkionRightList",mathServices.findAllTasksFromLastFiveRoundsInfrintAcutalRound(session.getRound(), session.getRound().getPlayer().getPlayerId()));
+		view.addObject("fiveRoundRefletkionRightList",mathServices.findAllTasksFromLastFiveRoundsInFrontAcutalRound(session.getRound(), session.getRound().getPlayer().getPlayerId()));
 
 		/*
 		 * Die Entity Objekte werden in eine "List" geladen gemaess der Abfrage aus der Repository

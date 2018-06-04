@@ -2,12 +2,12 @@ package de.cominto.praktikum.Math4Juerina_Web.web;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseTearDown;
 import de.cominto.praktikum.Math4Juerina_Web.database.*;
 import de.cominto.praktikum.Math4Juerina_Web.service.EnumOperatorImpl;
 import de.cominto.praktikum.Math4Juerina_Web.service.Factory;
 import de.cominto.praktikum.Math4Juerina_Web.service.MathServices;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -24,14 +24,13 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.servlet.http.HttpSession;
-import java.time.Clock;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static java.time.ZoneId.systemDefault;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -84,7 +83,6 @@ public class ControllerMockTest {
         playerRepository.findAll().forEach(playerList::add);
         assertThat(playerList, is(Matchers.notNullValue()));
         assertThat(playerList.size(), is(1));
-
     }
 
     @Test
@@ -195,7 +193,8 @@ public class ControllerMockTest {
                 ).andExpect(redirectedUrl("/ui/play"))
                 .andReturn().getRequest().getSession();
         assertNull(session.getAttribute(MathSession.TASK));
-        Iterator<Task> iterator = taskRepository.findAll().iterator();
+        Round round = (Round) session.getAttribute(MathSession.ROUND);
+        Iterator<Task> iterator = taskRepository.findByRoundRoundId(round.getRoundId()).iterator();
         assertTrue(iterator.hasNext());
         Task next = iterator.next();
         assertEquals(next.getX(),task.getX());
@@ -214,7 +213,7 @@ public class ControllerMockTest {
         task.setX(5);
         task.setEnumOperator(EnumOperatorImpl.ADD);
         task.setY(5);
-
+        long roundId = round.getRoundId();
 
        HttpSession session = this.mockMvc
                 .perform(
@@ -223,7 +222,7 @@ public class ControllerMockTest {
                 ).andExpect(redirectedUrl("/ui/play"))
                .andReturn().getRequest().getSession();
         assertNull(session.getAttribute(MathSession.TASK));
-        Iterator<Task> iterator = taskRepository.findAll().iterator();
+        Iterator<Task> iterator = taskRepository.findByRoundRoundId(roundId).iterator();
         assertTrue(iterator.hasNext());
         Task next = iterator.next();
         assertEquals(next.getX(),task.getX());
@@ -242,29 +241,26 @@ public class ControllerMockTest {
 
     @Test
     @DatabaseSetup(value={"/dbunit/testData.xml"})
-    public void getPraiseTest() throws Exception{
-        double  testValueFiftyPercent = 50.0;
-        double testValueCorrectPercent = 83.33;
+    @DatabaseTearDown("/dbunit/testData_clean.xml")
+    public void getPraiseTest() {
         updateDatabase();
-        List<Task> tasks = new ArrayList<>();
-        taskRepository.findAll().forEach(tasks :: add);
-        assertThat(mathServices.getPercentCorrectFromDateToLocalDate(1,30),is(testValueFiftyPercent));
-        assertThat(mathServices.getCorrectPercent(8),is(testValueCorrectPercent));
+        double  testValueAllDataPercent = 72.5;
+        double testValueCorrectPercent = 83.33;
+        Player player = new Player();
+        player.setPlayerId(1L);
+        Round round = new Round(1,(player));
+        round.setRoundId(71);
+        MathSession mathSession = Mockito.mock(MathSession.class);
+        Mockito.when(mathSession.getRound()).thenReturn(round);
         //erwartete Werte
+        assertThat(mathServices.getPercentCorrectFromDateToLocalDate(1,30),is(testValueAllDataPercent));
+        assertThat(mathServices.getCorrectPercent(8),is(testValueCorrectPercent));
         assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).size(),is(3));
-        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(0),is(0.0)); // zweiter Tag Tesdaten 0.0% richtig
-        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(1),is(0.0));   // 0.0% erster Tag Tesdaten (richtig)
-        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(2),is(90.91));   // 90,91% erster Tag Tesdaten (richtig)
+        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(0),is(90.91)); // erster Tag Tesdaten 90.91% (richtig)
+        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(1),is(100.0));   // 100.0% zweiter Tag Tesdaten (richtig)
+        assertThat(mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(2),is(0.0));   // 0,0% dritter Tag Tesdaten (richtig)
+        assertThat(mathServices.findAllTasksFromLastFiveRoundsInFrontAcutalRound(mathSession.getRound(), mathSession.getRound().getPlayer().getPlayerId()).size(),is(5));
 
-//        List<WrapperCount>wrapperCountList =
-        LOG.info("############ Size List: {}",tasks.size());
-        LOG.info("############ FirstPracticeDay: {}",tasks.get(0).getPracticeDay());
-        LOG.info("############ Lsst PraticeDay: {}",tasks.get(39).getPracticeDay());
-        LOG.info("############ correctPercent List: {}",mathServices.getCorrectPercent(8));
-        LOG.info("############ fiveDay List: {} ",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).size());
-        LOG.info("############ first entry List: {} Date: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(0));
-        LOG.info("############ secound entry List: {} Date: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(1));
-        LOG.info("############ third entry List: {} Date: {}",mathServices.getCountAllTaskFromDateToDateGroupByDay(1,5).get(2));
     }
 
     private void updateDatabase(){

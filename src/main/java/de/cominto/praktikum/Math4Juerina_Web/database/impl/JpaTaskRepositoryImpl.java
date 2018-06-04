@@ -56,7 +56,7 @@ public class JpaTaskRepositoryImpl implements JpaTaskRepository {
 
         cq.select(projection)
                 .where(
-                        cb.greaterThan(task.get(Task_.practiceDay), fromDate),
+                        cb.greaterThanOrEqualTo(task.get(Task_.practiceDay), fromDate),
                         cb.lessThan(task.get(Task_.practiceDay), toDate),
                         cb.lessThan(round.get(Round_.roundId),roundObjekt.getRoundId()),
                         cb.equal(round.get(Round_.player).get(Player_.playerId),roundObjekt.getPlayer().getPlayerId()))

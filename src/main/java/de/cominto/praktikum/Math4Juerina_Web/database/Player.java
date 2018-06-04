@@ -1,12 +1,7 @@
 package de.cominto.praktikum.Math4Juerina_Web.database;
 
+import javax.persistence.*;
 import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 /**
  * Entity Player contains plyerId, userName, Password
@@ -14,7 +9,7 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Player {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long playerId;
@@ -23,7 +18,7 @@ public class Player {
 
 	@OneToMany(mappedBy="player")
 	private List <Round> rounds;
-	
+
 	public List<Round> getRounds() {
 		return rounds;
 	}
@@ -32,8 +27,9 @@ public class Player {
 		this.rounds = rounds;
 	}
 
+//	Constructor
 	public Player() {}
-	
+
 	public Player(String userName) {
 		this.userName = userName;
 	}
@@ -97,12 +93,9 @@ public class Player {
 		} else if (!rounds.equals(other.rounds))
 			return false;
 		if (userName == null) {
-			if (other.userName != null)
-				return false;
-		} else if (!userName.equals(other.userName))
-			return false;
-		return true;
-	}
+            return other.userName == null;
+		} else return userName.equals(other.userName);
+    }
 
 	
 }

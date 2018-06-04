@@ -12,7 +12,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.*;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -139,7 +141,7 @@ public class MathServicesImplTest {
 
 
     @Test
-    public void findAllTasksFromLastFiveRoundsInfrintAcutalRound() {
+    public void findAllTasksFromLastFiveRoundsInfrontAcutalRound() {
         final int numRoundIds = random.nextInt(5)+1;
         Set<Long> roundIds = new TreeSet<>();
         List<WrapperCount> wrapperCounts = new ArrayList();
@@ -176,7 +178,7 @@ public class MathServicesImplTest {
         Round round = new Round();
 
 
-        List<Double> tasks = mathServices.findAllTasksFromLastFiveRoundsInfrintAcutalRound(round, 1);
+        List<Double> tasks = mathServices.findAllTasksFromLastFiveRoundsInFrontAcutalRound(round, 1);
         assertThat(tasks, is(notNullValue()));
         assertThat(tasks.size(),is(numRoundIds));
         for (int i = 0; i < expectedValues.size();i++){
